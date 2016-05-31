@@ -1,0 +1,1 @@
+<?php if (!isset($_SESSION)) { session_start(); } if (!isset($_SESSION['luouser'])) { echo '<META http-equiv="refresh" content="0;URL=login">'; die(); } ?>

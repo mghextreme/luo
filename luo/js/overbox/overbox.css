@@ -1,0 +1,54 @@
+div#box-background {
+	position: fixed;
+	z-index: 1001;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+div#box-main {
+	position: fixed;
+	padding: 10px;
+	z-index: 1005;
+	top: 50%; left: 50%;
+	text-align: center;
+	transform: translateX(-50%) translateY(-50%);
+}
+
+div#box-message {
+	width: 100%;
+	padding: 30px 20px;
+	background-color: white;
+	color: #555;
+	font-size: 24px;
+	line-height: 30px;
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.5);
+}
+
+div#box-buttons {
+	width: 100%;
+	height: 50px;
+	margin-top: 10px;
+}
+
+div#box-buttons > div {
+	display: inline-block;
+	padding: 11px 10px;
+	color: white;
+	font-size: 24px;
+	line-height: 30px;
+	text-align: center;
+	box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.5);
+	cursor: pointer;
+}
+div#box-buttons > div:focus,
+div#box-buttons > div:hover { box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.7); }
+div#box-buttons > div#box-button-submit {
+	float: left;
+	background-color: #293243;
+}
+div#box-buttons > div#box-button-exit {
+	float: right;
+	background-color: #485775;
+}

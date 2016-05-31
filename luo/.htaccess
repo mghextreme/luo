@@ -1,0 +1,16 @@
+#Options +FollowSymLinks -MultiViews
+
+#AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
+
+RewriteEngine On
+
+# Errors
+ErrorDocument 404 /404.php
+RewriteRule ^404/?$ 404.php
+
+RewriteRule ^/?$ index.php
+RewriteRule ^(home|main|dashboard|start|root)/?$ index.php
+
+RewriteRule ^(log|sign)-?in/?$ login.php
+
+RewriteRule ^responder/([0-9]+)/(([^/]+)/?)?$ responder.php?id=$1

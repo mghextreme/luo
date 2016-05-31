@@ -7,9 +7,9 @@
 	
 	//Set Website Options
 	$website['name'] = "Lúo";
-	$website['base'] = "localhost/luo";
-	$website['link'] = "http://localhost/luo";
-	$website['path'] = "C:/xamp/htdocs/luo";
+	$website['base'] = "localhost/luo/luo";
+	$website['link'] = "http://localhost/luo/luo";
+	$website['path'] = "C:/xamp/htdocs/luo/luo";
 	
 	//Connection
 	$conn = NULL;

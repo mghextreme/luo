@@ -54,5 +54,33 @@
 			
 			return $result;
 		}
+        
+        function iniSystem($sistema){
+			global $conn;
+			
+            if(!isset($_SESSION)){
+                session_start();
+            }
+            if(isset($_SESSION[$sistema])){
+                $_SESSION[$sistema] = null;
+            }
+            
+            $_SESSION[$sistema] = array(
+                'variaveis' => array(),
+                'arvores' => array()
+            );
+			
+			// acessar o banco pegar os objetivos e para cada objetivo criar uma arvore
+			$query = "SELECT * FROM variavel WHERE sistema = '{$sistema}' AND objetivo = 1;";
+			$result = $conn->query($query);
+			
+			// atribui as linhas retornadas
+			$array = array();
+			if($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+					$_SESSION[$sistema]['arvores'][] = new Arvore($row['id']);
+				}
+			}
+        }
 	}
 ?>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 31-Maio-2016 às 14:43
+-- Generation Time: 01-Jun-2016 às 15:38
 -- Versão do servidor: 5.6.21
 -- PHP Version: 5.6.3
 
@@ -30,10 +30,22 @@ CREATE TABLE IF NOT EXISTS `condicao` (
 `id` int(11) NOT NULL,
   `regra` int(11) NOT NULL,
   `variavel` int(11) NOT NULL,
-  `valor` varchar(100) DEFAULT NULL,
-  `op` varchar(2) NOT NULL,
+  `valor` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `op` varchar(2) CHARACTER SET utf8 NOT NULL,
   `pai` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `condicao`
+--
+
+INSERT INTO `condicao` (`id`, `regra`, `variavel`, `valor`, `op`, `pai`) VALUES
+(1, 1, 2, 'SIM', '=', NULL),
+(2, 2, 2, 'NÃO', '=', NULL),
+(3, 3, 3, 'SIM', '=', NULL),
+(4, 4, 3, 'NÃO', '=', NULL),
+(5, 5, 4, 'SIM', '=', NULL),
+(6, 6, 4, 'NÃO', '=', NULL);
 
 -- --------------------------------------------------------
 
@@ -47,7 +59,19 @@ CREATE TABLE IF NOT EXISTS `consequencia` (
   `variavel` int(11) NOT NULL,
   `valor` varchar(100) DEFAULT NULL,
   `certeza` float NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `consequencia`
+--
+
+INSERT INTO `consequencia` (`id`, `regra`, `variavel`, `valor`, `certeza`) VALUES
+(1, 1, 1, '2', 1),
+(2, 2, 1, '1', 1),
+(3, 3, 2, '3', 1),
+(4, 4, 2, '4', 1),
+(5, 5, 1, '2', 1),
+(6, 6, 1, '1', 1);
 
 -- --------------------------------------------------------
 
@@ -59,7 +83,21 @@ CREATE TABLE IF NOT EXISTS `opcao` (
 `id` int(11) NOT NULL,
   `variavel` int(11) NOT NULL,
   `valor` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `opcao`
+--
+
+INSERT INTO `opcao` (`id`, `variavel`, `valor`) VALUES
+(1, 1, 'SIM'),
+(2, 1, 'NÃO'),
+(3, 2, 'SIM'),
+(4, 2, 'NÃO'),
+(5, 3, 'SIM'),
+(6, 3, 'NÃO'),
+(7, 4, 'SIM'),
+(8, 4, 'NÃO');
 
 -- --------------------------------------------------------
 
@@ -72,7 +110,19 @@ CREATE TABLE IF NOT EXISTS `regra` (
   `nome` varchar(100) DEFAULT NULL,
   `ordem` int(11) NOT NULL,
   `sistema` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `regra`
+--
+
+INSERT INTO `regra` (`id`, `nome`, `ordem`, `sistema`) VALUES
+(1, 'chove', 1, 1),
+(2, 'choveNao', 2, 1),
+(3, 'previsão', 3, 1),
+(4, 'previsãoNao', 4, 1),
+(5, 'namorada', 5, 1),
+(6, 'namoradaNão', 6, 1);
 
 -- --------------------------------------------------------
 
@@ -84,7 +134,14 @@ CREATE TABLE IF NOT EXISTS `sistema` (
 `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `sistema`
+--
+
+INSERT INTO `sistema` (`id`, `nome`, `usuario`) VALUES
+(1, 'IrPraia', 1);
 
 -- --------------------------------------------------------
 
@@ -97,7 +154,15 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `login` varchar(30) NOT NULL,
   `senha` varchar(100) NOT NULL,
   `nome` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `login`, `senha`, `nome`) VALUES
+(1, 'matias', '$1$Oj..9U0.$CTAGpwqJabr5WDLKUhe0F1', 'Matias'),
+(2, 'evandro', '123', 'Evandro');
 
 -- --------------------------------------------------------
 
@@ -112,8 +177,19 @@ CREATE TABLE IF NOT EXISTS `variavel` (
   `tipo` varchar(8) NOT NULL,
   `pergunta` varchar(255) DEFAULT NULL,
   `descricao` text,
-  `objetivo` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `objetivo` tinyint(1) NOT NULL DEFAULT '0',
+  `questionavel` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `variavel`
+--
+
+INSERT INTO `variavel` (`id`, `sistema`, `nome`, `tipo`, `pergunta`, `descricao`, `objetivo`, `questionavel`) VALUES
+(1, 1, 'ir', 'OPCAO', NULL, NULL, 1, 0),
+(2, 1, 'chove', 'OPCAO', NULL, NULL, 0, 0),
+(3, 1, 'previsão', 'OPCAO', NULL, NULL, 0, 1),
+(4, 1, 'namorada', 'OPCAO', NULL, NULL, 0, 1);
 
 --
 -- Indexes for dumped tables
@@ -169,37 +245,37 @@ ALTER TABLE `variavel`
 -- AUTO_INCREMENT for table `condicao`
 --
 ALTER TABLE `condicao`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `consequencia`
 --
 ALTER TABLE `consequencia`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `opcao`
 --
 ALTER TABLE `opcao`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `regra`
 --
 ALTER TABLE `regra`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `sistema`
 --
 ALTER TABLE `sistema`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `variavel`
 --
 ALTER TABLE `variavel`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --

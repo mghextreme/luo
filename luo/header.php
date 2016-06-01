@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include(dirname(__FILE__).'/func/base.php');
+	include(__DIR__.'/func/base.php');
 	connectDatabase();
 ?>
 <!DOCTYPE html>
@@ -26,4 +26,4 @@
 		<script type="text/javascript" charset="utf-8">var adm = '<?=$website['link'];?>/';</script>
 		
 		<!-- Google WebFonts -->
-		<link href='http://fonts.googleapis.com/css?family=Abel:400' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Lato:400,700,300' rel='stylesheet' type='text/css'>

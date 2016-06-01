@@ -1,0 +1,17 @@
+TO DO
+
+----- Matias
+
+- Interface (HTML/CSS/JS)
+
+
+----- Evandro
+
+- Cadastrar sistema
+- Inicializar sessões
+
+
+IDEIAS
+
+- Sugerir menor caminho
+- Notificar inconsistências

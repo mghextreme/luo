@@ -43,12 +43,9 @@ html, body {
 
 body {
 	background-color: #f2f2f2;
-	font-family: 'Abel', sans-serif;
+	font-family: 'Lato', sans-serif;
 	font-weight: normal;
-	color: #333;
-}
-@media (min-width:1100px){
-	body#in { padding-left: 300px; }
+	color: #555;
 }
 
 .fa {
@@ -60,6 +57,11 @@ body {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+div.center {
+	margin: 0 auto;
+	max-width: 800px;
 }
 
 
@@ -97,8 +99,6 @@ div#box > h2 {
 }
 
 div#box > h2 > em { color: #293243; }
-
-div#box > form#formSignUp { display: none; }
 
 div#box > form > div.field > label {
 	padding-left: 12px;
@@ -151,659 +151,99 @@ div#box > form input#submit {
 div#box > form input#submit:not([disabled]):focus,
 div#box > form input#submit:not([disabled]):hover { opacity: 0.85; }
 
-div#box > a#forgot {
-    position: absolute;
-    top: 100%; left: 10px;
-    padding: 1px 4px;
-    margin-top: 5px;
-	font-size: 18px;
-	line-height: 24px;
-    text-transform: uppercase;
-    color: #293243;
-}
-div#box > a#forgot:hover,
-div#box > a#forgot:focus { color: #485775; text-decoration: underline; }
 
-div#box > a#switch {
-    position: absolute;
-    top: 100%; right: 10px;
-    padding: 1px 4px;
-    margin-top: 5px;
-	font-size: 18px;
-	line-height: 24px;
-    text-transform: uppercase;
-    color: #293243;
-}
-div#box > a#switch:hover,
-div#box > a#switch:focus { color: #485775; text-decoration: underline; }
+/* - - - - - - - - - - - - - - - - Responder - - - - - - - - - - - - - - - - */
 
-
-/* - - - - - - - - - - - - - - - - Top - - - - - - - - - - - - - - - - */
-
-div#bar {
-	display: block;
-	position: fixed;
-	top: 0; bottom: 0;
-	left: 0;
-	width: 300px;
-	text-align: left;
-	background-color: #ddd;
-}
-
-
-/* - - - - - - - - User - - - - - - - - */
-
-div#bar > div#user {
-    position: relative;
-    width: 300px;
-    height: 205px;
-    border-bottom: 5px solid #697ea8;
-    background: #293243;
-}
-
-div#bar > div#user::after {
-    position: absolute;
-    top: 50%;
-    left: 0; right: 0;
-    height: 50%;
-    background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.8));
-    content: '';
-    z-index: 5;
-}
-
-div#bar > div#user > span {
-    position: absolute;
-    bottom: 8px; left: 15px;
-    font-size: 36px;
-    line-height: 42px;
-    color: white;
-    z-index: 10;
-}
-
-
-/* - - - - - - - - Menu - - - - - - - - */
-
-div#bar > div#menu { }
-
-div#bar > div#menu > a {
-    display: block;
-    padding: 8px 18px;
-    font-size: 24px;
-    line-height: 32px;
-    color: #485775;
-}
-div#bar > div#menu > a:hover,
-div#bar > div#menu > a:hover {
-    background: #ddd;
-    background: rgba(0,0,0,0.1);
-}
-
-@media (min-width:1100px){
-	div#bar > div#menu > a#answer {
-		margin-bottom: 4px;
-		text-align: center;
-		color: white;
-		background: #485775;
-	}
-	div#bar > div#menu > a#answer:hover,
-	div#bar > div#menu > a#answer:focus { background: #293243; }
-}
-
-@media (max-width:1099px),
-@media (max-width:509px){
-	div#bar {
-		position: relative;
-		bottom: auto;
-		left: auto; right: auto;
-		width: auto;
-		height: 50px;
-		padding: 5px 20px 5px 48px;
-		border-left: 48px solid #485775;
-	}
-	div#bar > div#user {
-		position: absolute;
-		top: 10px; left: -38px;
-		width: 70px;
-		height: 70px;
-		border: 3px solid #485775;
-		border-radius: 50%;
-		overflow: hidden;
-	}
-	div#bar > div#user img {
-		position: absolute;
-		top: 0; left: 50%;
-		width: auto;
-		height: 100%;
-		transform: translateX(-50%);
-	}
-	div#bar > div#user > span { display: none; }
-	div#bar > div#menu > a {
-		display: inline-block;
-		padding: 5px 12px;
-		margin: 0 5px;
-		font-size: 20px;
-		line-height: 30px;
-	}
-}
-
-
-/* - - - - - - - - - - - - - - - - Content - - - - - - - - - - - - - - - - */
-
-div#content {
-	width: 740px;
-	margin: 40px auto;
-}
-
-
-/* - - - - - - - - - - - - - - - - Dashboard - - - - - - - - - - - - - - - - */
-
-div#dashboard { }
-
-div#dashboard > h1 {
-	font-size: 32px;
-	line-height: 40px;
-	color: #485775;
-}
-
-div#dashboard > ul.data {
-	margin-top: 20px;
-}
-
-div#dashboard > ul.data > li {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	align-items: center;
-	align-content: center;
-	justify-content: space-between;
-}
-div#dashboard > ul.data > li + li { margin-top: 15px; }
-
-div#dashboard > ul.data > li > h2 {
-	flex: 1 1 auto;
-	font-size: 24px;
-	line-height: 30px;
-	color: #293243;
+div#responder {
 	text-align: left;
 }
 
-div#dashboard > ul.data > li > div {
-	flex: 0 0 auto;
-	width: 200px;
-	font-size: 24px;
-	line-height: 30px;
-	color: #485775;
-	text-align: right;
-}
+/* - - - - - - - - Top - - - - - - - - */
 
-div#dashboard > ul.data > li > div > span.fa {
-	margin-right: 15px;
-}
-div#dashboard > ul.data > li > div > span.fa.green { color: #33a32e; }
-
-div#dashboard > ul.data > li > div > small {
-	margin-left: 5px;
-	font-size: 16px;
-}
-
-
-/* - - - - - - - - - - - - - - - - Categories - - - - - - - - - - - - - - - - */
-
-div#categories { }
-
-div#categories > h3 {
-	font-size: 32px;
-	line-height: 40px;
-	text-align: center;
-	color: #485775;
-}
-
-div#categories > ul.listing {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	align-items: stretch;
-	align-content: space-between;
-	justify-content: space-between;
-	margin-top: 30px;
-}
-
-div#categories > ul.listing > li {
+div#responder > div#top {
 	position: relative;
-	flex: 1 1 auto;
-	width: 40%;
-	padding: 6px 40px 4px 5px;
-	border-bottom: 2px solid #bbb;
-	margin: 6px 10px 0 10px;
-	font-size: 24px;
-	line-height: 32px;
-	color: #bbb;
-	cursor: pointer;
-}
-div#categories > ul.listing > li:hover,
-div#categories > ul.listing > li:focus {
-	color: #777;
-	border-bottom-color: #777;
-}
-div#categories > ul.listing > li.on {
-	color: #485775;
-	border-bottom-color: #485775;
-}
-div#categories > ul.listing > li.on:hover,
-div#categories > ul.listing > li.on:focus { opacity: 0.7; }
-
-div#categories > ul.listing > li > span.fa {
-	display: none;
-	position: absolute;
-	top: 7px; right: 5px;
-	font-size: 18px;
-	line-height: 30px;
-}
-div#categories > ul.listing > li.on > span.fa { display: block; }
-
-div#categories > div#submit {
-	display: block;
-	width: 60%;
-	padding: 8px 18px;
-	margin-top: 20px;
-	font-size: 24px;
-	line-height: 32px;
-	text-align: center;
-	color: white;
-	background: #485775;
-	cursor: pointer;
-}
-div#categories > div#submit:hover,
-div#categories > div#submit:focus { background: #293243; }
-
-
-/* - - - - - - - - - - - - - - - - Poll Form - - - - - - - - - - - - - - - - */
-
-form.pollForm {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	align-items: stretch;
-	align-content: stretch;
-	justify-content: space-between;
-}
-
-form.pollForm > div.field {
-	flex: 1 1 auto;
-	width: 100%;
-	margin: 0 10px 15px 10px;
-}
-form.pollForm > div.half { width: 40%; }
-
-form.pollForm > div.field > label {
-	padding: 0 5px;
-	margin-bottom: 5px;
-	font-size: 14px;
-	line-height: 20px;
-	color: #485775;
-}
-
-form.pollForm > div.field.string > input,
-form.pollForm > div.field.select > select {
-	width: 100%;
-	padding: 6px 12px;
-	font-size: 20px;
-	line-height: 28px;
-	color: #485775;
-	background: #ccc;
-}
-
-form.pollForm > div.field.string.title > input {
-	padding: 12px 18px;
-	font-size: 32px;
-	line-height: 40px;
-}
-
-form.pollForm > div.field.multiple { text-align: right; }
-
-form.pollForm > div.field.multiple > label { text-align: left; }
-
-form.pollForm > div.field.multiple > div.item {
-	position: relative;
-	width: 100%;
-	padding-right: 44px;
-}
-form.pollForm > div.field.multiple > div.item + div.item { margin-top: 10px; }
-
-form.pollForm > div.field.multiple > div.item > input {
-	width: 100%;
-	padding: 6px 12px;
-	font-size: 20px;
-	line-height: 28px;
-	color: #485775;
-	background: #ccc;
-	text-align: left;
-}
-
-form.pollForm > div.field.multiple > div.item > span.remove {
-	position: absolute;
-	top: 2px; right: 0;
-	width: 36px;
-	height: 30px;
-	padding: 3px 0;
-	font-size: 24px;
-	line-height: 30px;
-	text-align: center;
-	color: #bbb;
-	cursor: pointer;
-}
-form.pollForm > div.field.multiple > div.item > span.remove:hover,
-form.pollForm > div.field.multiple > div.item > span.remove:focus { color: #777; }
-
-form.pollForm > div.field.multiple > div#add {
-	position: relative;
-	display: inline-block;
-	margin: 10px 0 0 auto;
-	padding: 4px 44px 4px 10px;
-	font-size: 24px;
-	line-height: 32px;
-	color: #999;
-	cursor: pointer;
-}
-form.pollForm > div.field.multiple > div#add:hover,
-form.pollForm > div.field.multiple > div#add:focus { color: #777; }
-
-form.pollForm > div.field.multiple > div#add > span {
-	position: absolute;
-	top: 2px; right: 0;
-	width: 36px;
-	height: 30px;
-	padding: 3px 0;
-	font-size: 24px;
-	line-height: 30px;
-	text-align: center;
-}
-
-form.pollForm > input#submit {
-	display: block;
-	width: 60%;
-	padding: 8px 18px;
-	margin-top: 20px;
-	font-size: 24px;
-	line-height: 32px;
-	text-align: center;
-	color: white;
-	background: #485775;
-	cursor: pointer;
-}
-form.pollForm > input#submit:hover,
-form.pollForm > input#submit:focus { background: #293243; }
-
-
-/* - - - - - - - - - - - - - - - - Answer - - - - - - - - - - - - - - - - */
-
-div#answer {
-	text-align: center;
-}
-
-div#answer > h2,
-div#answer > h3 {
-	font-size: 18px;
-	line-height: 24px;
-	color: #777;
-}
-
-div#answer > h1 {
-	font-size: 32px;
-	line-height: 40px;
-	color: #485775;
-}
-
-div#answer > h3 {
-	margin-top: 3px;
-	font-size: 16px;
-	line-height: 22px;
-	color: #aaa;
-}
-
-div#answer > ul.options {
-	margin-top: 20px;
-}
-
-div#answer > ul.options > li {
-	position: relative;
-	padding: 10px 15px;
-	color: white;
-	background: #485775;
-	opacity: 0.8;
-}
-div#answer > ul.options.voting > li {
-	opacity: 1;
-	cursor: pointer;
-}
-div#answer > ul.options > li.voted { opacity: 1; }
-div#answer > ul.options > li + li { margin-top: 10px; }
-
-div#answer > ul.options.voting > li:hover,
-div#answer > ul.options.voting > li:focus { background: #293243; }
-
-div#answer > ul.options.voting > li:hover::before,
-div#answer > ul.options.voting > li:focus::before,
-div#answer > ul.options > li.voted::before,
-div#answer > ul.options.voting > li:hover::after,
-div#answer > ul.options.voting > li:focus::after,
-div#answer > ul.options > li.voted::after {
-	position: absolute;
-	top: 5px; bottom: 5px;
-	width: 4px;
-	background: #293243;
-	content: '';
-}
-div#answer > ul.options.voting > li:hover::before,
-div#answer > ul.options.voting > li:focus::before,
-div#answer > ul.options > li.voted::before { left: -8px; }
-div#answer > ul.options.voting > li:hover::after,
-div#answer > ul.options.voting > li:focus::after,
-div#answer > ul.options > li.voted::after { right: -8px; }
-
-div#answer > ul.options > li > span.text {
-	position: relative;
-	font-size: 24px;
-	line-height: 30px;
-	z-index: 10;
-}
-
-div#answer > ul.options > li > span.result {
-	position: absolute;
-	top: 12px; right: 15px;
-	font-size: 16px;
-	line-height: 22px;
-	z-index: 10;
-}
-
-div#answer > ul.options > li > div.done {
-	position: absolute;
-	top: 0; bottom: 0;
-	left: 0;
-	background: #293243;
-	z-index: 5;
-}
-
-div#answer > div#next {
-	display: block;
-	width: 40%;
-	padding: 8px 18px;
-	margin-top: 20px;
-	font-size: 24px;
-	line-height: 32px;
-	text-align: center;
-	color: white;
-	background: #485775;
-	cursor: pointer;
-}
-div#answer > div#next:hover,
-div#answer > div#next:focus { background: #293243; }
-
-
-/* - - - - - - - - - - - - - - - - Manage Polls - - - - - - - - - - - - - - - - */
-
-div#manage { }
-
-div#manage > h1 {
-	font-size: 32px;
-	line-height: 40px;
-	color: #485775;
-}
-
-div#manage > div.number > span {
-	display: inline-block;
-	font-size: 18px;
-	line-height: 24px;
-	color: #777;
-}
-div#manage > div.number > span + span { margin-left: 20px; }
-div#manage > div.number > span.open { color: #33a32e; }
-
-div#manage > ul#polls {
-	margin-top: 20px;
-}
-
-div#manage > ul#polls > a > li {
-	display: flex;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	align-items: stretch;
-	align-content: stretch;
-	justify-content: space-between;
-	
-	padding: 15px 20px;
+	padding: 70px 25px 20px 25px;
 	color: white;
 	background: #485775;
 }
-div#manage > ul#polls > a > li.closed { background: #777; }
-div#manage > ul#polls > a + a > li { margin-top: 10px; }
-div#manage > ul#polls > a:hover > li,
-div#manage > ul#polls > a:focus > li { opacity: 0.9; }
 
-div#manage > ul#polls > a > li > div.text {
-	flex: 1 1 auto;
-	width: 80%;
+div#responder > div#top > h1 {
+	font-size: 48px;
+	font-weight: 300;
+	line-height: 54px;
 }
 
-div#manage > ul#polls > a > li > div.text > h3 {
-	font-size: 24px;
-	line-height: 30px;
+div#responder > div#top > span#reset {
+	position: absolute;
+	top: 15px; right: 15px;
+	padding: 3px 10px;
+	font-size: 12px;
+	line-height: 18px;
+	cursor: pointer;
 }
-
-div#manage > ul#polls > a > li > div.text > h4 {
-	font-size: 18px;
-	line-height: 24px;
+div#responder > div#top > span#reset:hover,
+div#responder > div#top > span#reset:focus {
 	opacity: 0.7;
 }
 
-div#manage > ul#polls > a > li > ul.data {
-	flex: 0 0 auto;
-	min-width: 150px;
-	margin-left: 30px;
+/* - - - - - - - - Content - - - - - - - - */
+
+div#responder > div#content {
+	padding: 20px 25px;
+	margin-top: 30px;
+	background: white;
 }
 
-div#manage > ul#polls > a > li > ul.data > li {
-	position: relative;
-	padding: 2px 0 2px 32px;
+/* - - - - - - - - Content # Intro - - - - - - - - */
+
+div#responder > div#content > div#intro > h2 {
+	margin-bottom: 15px;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 30px;
+	color: #222;
+}
+
+div#responder > div#content > div#intro > p {
 	font-size: 16px;
 	line-height: 22px;
 }
 
-div#manage > ul#polls > a > li > ul.data > li > span.fa {
-	position: absolute;
-	top: 0; left: 0;
-	width: 28px;
-	font-size: 20px;
-	line-height: 24px;
-	text-align: center;
-}
-
-
-/* - - - - - - - - - - - - - - - - Settings - - - - - - - - - - - - - - - - */
-
-div#settings { }
-
-div#settings > h1 {
-	font-size: 32px;
-	line-height: 40px;
-	color: #485775;
-}
-
-div#settings > h2 {
-	margin-top: 15px;
-	padding: 0 10px;
-	font-size: 24px;
-	line-height: 30px;
-	color: #485775;
-}
-
-div#settings > form {
-	margin-top: 20px;
+div#responder > div#content > div.info {
 	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	align-items: stretch;
-	align-content: stretch;
-	justify-content: space-between;
+	flex-wrap: nowrap;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	margin-top: 20px;
 }
 
-div#settings > form > h2 {
-	flex: 1 1 auto;
-	width: 100%;
-	font-size: 24px;
-	line-height: 30px;
-	color: #485775;
+div#responder > div#content > div.info > span {
+	display: inline-block;
+	flex: 0 0 auto;
+	font-size: 16px;
+	line-height: 22px;
 }
+div#responder > div#content > div.info > span.author { margin-left: 0; }
+div#responder > div#content > div.info > span.date { margin-right: 0; }
 
-div#settings > form > div.field {
-	flex: 1 1 auto;
-	width: 100%;
-	margin: 0 10px 15px 10px;
-}
-div#settings > form > div.half { width: 40%; }
+/* - - - - - - - - Top - - - - - - - - */
 
-div#settings > form > div.field > label {
-	padding: 0 5px;
-	margin-bottom: 5px;
-	font-size: 14px;
-	line-height: 20px;
-	color: #485775;
-}
-
-div#settings > form > div.field.string > input,
-div#settings > form > div.field.select > select {
-	width: 100%;
-	padding: 6px 12px;
-	font-size: 20px;
-	line-height: 28px;
-	color: #485775;
-	background: #ccc;
-}
-
-div#settings > form > div.field.file > input {
-	width: 100%;
-	padding: 6px 12px;
-	font-size: 14px;
-	line-height: 20px;
-	color: #485775;
-	background: #ccc;
-}
-
-div#settings > form > div.footer {
-	flex: 1 1 auto;
-	width: 100%;
+div#responder > div#footer {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
 	padding: 0 10px;
-	text-align: right;
+	margin-top: 20px;
 }
 
-div#settings > form > div.footer > input#submit {
-	padding: 8px 18px;
-	font-size: 24px;
-	line-height: 32px;
-	text-align: center;
-	color: white;
-	background: #485775;
-	cursor: pointer;
+div#responder > div#footer > span {
+	display: inline-block;
+	flex: 0 0 auto;
+	font-size: 14px;
+	line-height: 20px;
 }
-div#settings > form > div.footer > input#submit:hover,
-div#settings > form > div.footer > input#submit:focus { background: #293243; }
+div#responder > div#footer > span.desc { margin-left: 0; }
+div#responder > div#footer > span.authors { margin-right: 0; }

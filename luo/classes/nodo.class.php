@@ -3,7 +3,7 @@
 	{ include(__DIR__.'/condicao.class.php'); }
 	
 	class Nodo {
-		// int - ID da pergunta a que o nodo se refere
+		// int - ID da regra a que o nodo se refere
 		public $id;
 		
 		// Nodo[] - lista de Nodos filhos

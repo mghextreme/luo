@@ -66,19 +66,37 @@
             }
             
             $_SESSION[$sistema] = array(
+				// variaveis descobertas e o seu valor
                 'variaveis' => array(),
-                'arvores' => array()
+				// variaveis sendo espandidas pela arvore
+                'arvores' => array(),
+				// todas as variaveis do sistema
+                'variaveisSistema' => array(),
             );
 			
 			// acessar o banco pegar os objetivos e para cada objetivo criar uma arvore
-			$query = "SELECT * FROM variavel WHERE sistema = '{$sistema}' AND objetivo = 1;";
+			$query = "SELECT id FROM variavel WHERE sistema = '{$sistema}' AND objetivo = 1;";
 			$result = $conn->query($query);
-			
-			// atribui as linhas retornadas
-			$array = array();
 			if($result->num_rows > 0) {
+				// atribui as linhas retornadas
 				while($row = $result->fetch_assoc()) {
 					$_SESSION[$sistema]['arvores'][] = new Arvore($row['id']);
+				}
+			}
+			
+			// acessar o banco pegar as variaveis
+			$query = "SELECT * FROM variavel WHERE sistema = '{$sistema}';";
+			$result = $conn->query($query);
+			if($result->num_rows > 0) {
+				// atribui as linhas retornadas
+				while($row = $result->fetch_assoc()) {
+					$varivavel = new Variavel($row['id']);
+					$varivavel->id = $row['id'];
+					$varivavel->nome = $row['nome'];
+					$varivavel->tipo = $row['tipo'];
+					$varivavel->questionavel = $row['questionavel'];
+					
+					$_SESSION[$sistema]['variaveisSistema'][$varivavel->id] = serialize($varivavel);
 				}
 			}
         }

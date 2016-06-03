@@ -66,12 +66,10 @@
             }
             
             $_SESSION[$sistema] = array(
-				// variaveis descobertas e o seu valor
+				// variaveis
                 'variaveis' => array(),
 				// variaveis sendo espandidas pela arvore
                 'arvores' => array(),
-				// todas as variaveis do sistema
-                'variaveisSistema' => array(),
             );
 			
 			// acessar o banco pegar os objetivos e para cada objetivo criar uma arvore
@@ -95,8 +93,16 @@
 					$varivavel->nome = $row['nome'];
 					$varivavel->tipo = $row['tipo'];
 					$varivavel->questionavel = $row['questionavel'];
+					$varivavel->pergunta = $row['pergunta'];
+					$varivavel->descricao = $row['descricao'];
 					
-					$_SESSION[$sistema]['variaveisSistema'][$varivavel->id] = serialize($varivavel);
+					// criando um array pra cada variavel
+					$_SESSION[$sistema]['variaveis'][$varivavel->id] = array(
+						// chave 'variavel' para um objeto de variavel
+						'variavel' => serialize($varivavel),
+						// chave de 'valor' para o valor da variavel
+						'valor' => NULL,
+					);
 				}
 			}
         }

@@ -24,35 +24,40 @@
 			
 		}
 		
-		// void - gerar filhos
+		// Variavel - gerar filhos
 		public expandir(){
 			// ids para perguntar
 			$aumento = count($this->filhos);
 			
 			// para cada condição de condições
 			foreach($codicoes as $condicao){
-				
-				$this->seekFilhos($condicao->variavel->id);
-					
-				if($this->filhos == $aumento){
-					// verifica se a variavel não existe existe
-					if(!isset[$_SESSION[$sistema]['variaveis'][$condicao->variavel->id]]){
-						// fazer a pergunta
+				// verifica se a variavel tem valor ou não
+				if(!isset($_SESSION[$sistema]['variaveis'][$condicao->variavel->id]['valor'])){
+					$this->seekFilhos($condicao->variavel->id);
+
+					if(count($this->filhos) == $aumento){
+						$variavel = unserialize($_SESSION[$sistema]['variaveis'][$condicao->variavel->id]['variavel']);
+
+						if($variavel->questionavel){
+							// retorna uma variavel que deve ser questionada
+							return $variavel;
+						} else {
+							return NULL;
+						}
+					} else {
+						// fazer a decida, para achar uma variavel a questionar
+						return $this->filhos[count($this->filhos) - 1]->expandir();
 					}
-				} else {
-					// fazer a decida
-					$this->filhis[count($this->filhos) - 1]->expandir();
+
+					$aumento = count($this->filhos);
 				}
-				
-				$aumento = count($this->filhos);
 			}
 			unset($condicao);
 			
 		}
 		
 		// metodo pra procurar e gerar nodos filhos
-		private seekFilhos($id){
-			// me preocupar com isto
+		public seekFilhos($id){
 			global $conn;
 			
 			$query = "SELECT consequencia.regra FROM consequencia WHERE consequencia.variavel = {$id};";
@@ -73,7 +78,7 @@
 						while($row = $resulConsequencia->fetch_assoc()){
 							$consequenciaNodo = new Consequencia();
 							$consequenciaNodo->id = $row['cons'];
-							$consequenciaNodo->variavel = unserialize($_SESSION[$sistema]['variaveisSistema'][$row['variavel']]);
+							$consequenciaNodo->variavel = unserialize($_SESSION[$sistema]['variaveis'][$row['variavel']]['variavel']);
 							$consequenciaNodo->valor = $row['valor'];
 							$consequenciaNodo->certeza = $row['certeza'];
 							
@@ -89,7 +94,7 @@
 							$condicaoFilho = new CondicaoValor();
 							$condicaoFilho->id = $row['id'];
 							$condicaoFilho->op = $row['op'];
-							$condicaoFilho->variavel = unserialize($_SESSION[$sistema]['variaveisSistema'][$row['id']]);
+							$condicaoFilho->variavel = unserialize($_SESSION[$sistema]['variaveis'][$row['id']]['variavel']);
 							$condicaoFilho->valor = $row['valor'];
 							
 							$nodoFilho->condicao[] = $condicaoFilho;

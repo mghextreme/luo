@@ -93,6 +93,7 @@
 						while($row = $resultCondicao->fetch_assoc()) {
 							$condicaoFilho = new CondicaoValor();
 							$condicaoFilho->id = $row['id'];
+							$condicaoFilho->sistema = $this->sistema;
 							$condicaoFilho->op = $row['op'];
 							$condicaoFilho->variavel = unserialize($_SESSION[$sistema]['variaveis'][$row['id']]['variavel']);
 							$condicaoFilho->valor = $row['valor'];

@@ -6,6 +6,9 @@
 		// string - operação
 		public $op = '=';
 		
+		// int - id do sistema
+		public $sistema;
+		
 		// void - construtor
 		public __construct(){
 			
@@ -31,6 +34,29 @@
 		
 		// bool - implementação do método descrito em Condicao
 		public function IsTrue(){
+			if(isset($_SESSION[$this->sistema]['variaveis'][$this->variavel->id]['valor'])){
+				$variavelValor = $_SESSION[$this->sistema]['variaveis'][$this->variavel->id]['valor'];
+				switch ($this->op){
+					case '=':
+						return $variavelValor == $this->valor;
+						break;
+					case '>':
+						return $variavelValor > $this->valor;
+						break;
+					case '<':
+						return $variavelValor < $this->valor;
+						break;
+					case '>=':
+						return $variavelValor >= $this->valor;
+						break;
+					case '<=':
+						return $variavelValor <= $this->valor;
+						break;
+					case '!=':
+						return $variavelValor != $this->valor;
+						break;
+				}
+			}
 			return NULL;
 		}
 	}
@@ -52,7 +78,33 @@
 		}
 		
 		// bool - implementação do método descrito em Condicao
+			// priorizar execução
 		public function IsTrue(){
+			foreach($condicoes as $condicao){
+				switch ($this->op){
+					case '&&':
+						if(!$condicao->isTrue()){
+							return FALSE;
+						}
+						break;
+					case '||':
+						if($condicao->isTrue()){
+							return TRUE;
+						}
+						break;
+						
+						// ta feito não garanto que vai ter
+					case '!':
+						return !$condicao->isTrue();
+						break;
+				}
+			}
+			unset($condicao);
+			
+			if(count($condicoes) > 0){
+				return $this->op == '&&';
+			}
+			
 			return NULL;
 		}
 	}

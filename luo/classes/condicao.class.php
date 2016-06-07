@@ -10,9 +10,7 @@
 		public $sistema;
 		
 		// void - construtor
-		public __construct(){
-			
-		}
+		function __construct(){ }
 		
 		// bool - retorna se a condição já foi atendida e NULL em caso de desconhecimento
 		public function IsTrue(){
@@ -28,9 +26,7 @@
 		public $valor;
 		
 		// void - construtor
-		public __construct(){
-			
-		}
+		function __construct(){ }
 		
 		// bool - implementação do método descrito em Condicao
 		public function IsTrue(){
@@ -66,12 +62,10 @@
 		public $condicoes = array();
 		
 		// void - construtor
-		public __construct(){
-			
-		}
+		function __construct(){ }
 		
 		// void - adiciona uma Condicao à lista
-		public addCondicao($cond){
+		public function addCondicao($cond){
 			if ($cond instanceof Condicao){
 				$condicoes[] = $cond;
 			}
@@ -120,8 +114,6 @@
 		public $certeza;
 		
 		// void - construtor
-		public __construct(){
-			
-		}
+		function __construct(){ }
 	}
 ?>

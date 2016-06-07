@@ -4,6 +4,7 @@
 	
 	if (!function_exists('connectDatabase')){
 		include(dirname(__FILE__).'/config.php');
+		include(dirname(__FILE__).'/../classes/arvore.class.php');
 		
 		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Basic Functions - - - - - - - -
 		
@@ -64,6 +65,7 @@
             if(!isset($_SESSION)){
                 session_start();
             }
+			
             if(isset($_SESSION[$sistema])){
                 $_SESSION[$sistema] = null;
             }
@@ -72,7 +74,7 @@
 				// variaveis
                 'variaveis' => array(),
 				// variaveis sendo espandidas pela arvore
-                'arvores' => array(),
+                'arvores' => array()
             );
 			
 			// acessar o banco pegar os objetivos e para cada objetivo criar uma arvore
@@ -92,7 +94,6 @@
 				// atribui as linhas retornadas
 				while($row = $result->fetch_assoc()) {
 					$varivavel = new Variavel($row['id']);
-					$varivavel->id = $row['id'];
 					$varivavel->nome = $row['nome'];
 					$varivavel->tipo = $row['tipo'];
 					$varivavel->questionavel = $row['questionavel'];
@@ -100,9 +101,10 @@
 					$varivavel->descricao = $row['descricao'];
 					
 					if($row['objetivo'] == 1){
-						$arvore = new Arvore();
-						$arvore->objetivo = $varivavel;
-						$_SESSION[$sistema]['arvores'][] = $arvore;
+						$arvore = new Arvore($varivavel);
+						$arvore->raiz = new Nodo(0);
+						$arvore->raiz->sistema = $sistema;
+						$_SESSION[$sistema]['arvores'][] = serialize($arvore);
 					}
 					
 					// criando um array pra cada variavel

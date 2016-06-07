@@ -1,4 +1,6 @@
 <?php
+	if (!class_exists('Variavel')) :
+	
 	class Variavel {
 		// int - ID
 		public $id;
@@ -19,8 +21,10 @@
 		public $descricao;
 		
 		// void - construtor
-		public __construct($id){
-			
+		function __construct($id){
+			$this->id = $id;
 		}
 	}
+	
+	endif;
 ?>

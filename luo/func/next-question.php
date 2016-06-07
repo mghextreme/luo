@@ -18,28 +18,28 @@
 	
 //	chamar o nodo inicializar ele e fazer a expanção para fazer as perguntas
 
-	$nodo = array();
-	
 	if (!isset($_SESSION[$sistema])){
 		iniSystem($sistema);
 	}
 	
-	try{
-		foreach($_SESSION[$sistema]['arvores'] as $aDescobrir){
-			if($_SESSION[$sistema]['variaveis'][$aDescobrir->objetivo->id]['valor'] === NULL){
-				$nodoObjetivo = new Nodo();
-				$nodoObjetivo->sistema =$sistema;
-				$nodoObjetivo->seekFilhos($aDescobrir);
-				$nodo[] = $nodoObjetivo;
-			}
+	try {
+		$arvores = array();
+		
+		foreach ($_SESSION[$sistema]['arvores'] as $aDescobrir){
+			$arvores[] = unserialize($aDescobrir);
 		}
 		unset($aDescobrir);
 		
-		// sempre vai expandir filho dos objetivos
-		// pois se o objetivo já tiver sido encontrado, então ele vai pra outro
-		$variavel = $nodo[0]->filhos[0]->expandir();
+		$variavel = NULL;
+		foreach ($arvores as $item){
+			if ($_SESSION[$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
+				$item->raiz->seekFilhos($item->objetivo->id);
+				$variavel = $item->raiz->expandir();
+				break;
+			}
+		}
 		
-		if($variavel !== NULL){
+		if ($variavel !== NULL){
 			$result['error'] = FALSE;
 			$result['content'] = array(
 				'id' => $variavel->id,

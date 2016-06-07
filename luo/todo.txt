@@ -7,11 +7,10 @@ TO DO
 
 ----- Evandro
 
-- Cadastrar sistema
-- Inicializar sessões
+- IniSystem (base.php): Verificar se sistema existe
 
 
 IDEIAS
 
 - Sugerir menor caminho
-- Notificar inconsistências
+- Notificar inconsistÃªncias

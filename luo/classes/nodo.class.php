@@ -2,6 +2,8 @@
 	if (!class_exists('Condicao'))
 	{ include(__DIR__.'/condicao.class.php'); }
 	
+	if (!class_exists('Nodo')) :
+	
 	class Nodo {
 		// int - ID da regra a que o nodo se refere
 		public $id;
@@ -14,30 +16,28 @@
 		public $filhos = array();
 		
 		// Condicao[] - lista de Condicao para que as consequências sejam verdadeiras
-		public $codicoes = array();
+		public $condicoes = array();
 		
 		// Consequencia[] - lista de Condicao para que as consequências sejam verdadeiras
 		public $consequencias = array();
 		
 		// void - construtor
-		public __construct(){
-			
-		}
+		function __construct($id){ $this->id = $id; }
 		
 		// Variavel - gerar filhos
-		public expandir(){
+		public function expandir(){
 			// ids para perguntar
 			$aumento = count($this->filhos);
 			
-			if(count($condicao) > 0){
+			if(count($this->condicoes) > 0){
 				// para cada condição de condições
-				foreach($codicoes as $condicao){
+				foreach($this->condicoes as $condicao){
 					// verifica se a variavel tem valor ou não
-					if($_SESSION[$sistema]['variaveis'][$condicao->variavel->id]['valor'] === NULL){
+					if($_SESSION[$this->sistema]['variaveis'][$condicao->variavel->id]['valor'] === NULL){
 						$this->seekFilhos($condicao->variavel->id);
 
 						if(count($this->filhos) == $aumento){
-							$variavel = unserialize($_SESSION[$sistema]['variaveis'][$condicao->variavel->id]['variavel']);
+							$variavel = unserialize($_SESSION[$this->sistema]['variaveis'][$condicao->variavel->id]['variavel']);
 
 							if($variavel->questionavel){
 								// retorna uma variavel que deve ser questionada
@@ -59,7 +59,7 @@
 		}
 		
 		// metodo pra procurar e gerar nodos filhos
-		public seekFilhos($id){
+		public function seekFilhos($id){
 			global $conn;
 			
 			$query = "SELECT consequencia.regra FROM consequencia WHERE consequencia.variavel = {$id};";
@@ -69,7 +69,7 @@
 				// faz a convesão
 				while($row = $resultRegra->fetch_assoc()) {
 					// nodo filho
-					$nodoFilho = new Nodo();
+					$nodoFilho = new Nodo($row['regra']);
 					$nodoFilho->sistema = $this->sistema;
 					
 					// pegas as consequencias para aquela regra
@@ -79,8 +79,8 @@
 					if($resulConsequencia->num_rows > 0){
 						while($row = $resulConsequencia->fetch_assoc()){
 							$consequenciaNodo = new Consequencia();
-							$consequenciaNodo->id = $row['cons'];
-							$consequenciaNodo->variavel = unserialize($_SESSION[$sistema]['variaveis'][$row['variavel']]['variavel']);
+							$consequenciaNodo->id = $row['id'];
+							$consequenciaNodo->variavel = unserialize($_SESSION[$this->sistema]['variaveis'][$row['variavel']]['variavel']);
 							$consequenciaNodo->valor = $row['valor'];
 							$consequenciaNodo->certeza = $row['certeza'];
 							
@@ -89,15 +89,15 @@
 					}
 					
 					// pegas as condições para aquela regra
-					$query = "SELECT condicao.* FROM condicao WHERE condicao.regra = {$row['regra']};";
+					$query = "SELECT condicao.* FROM condicao WHERE condicao.regra = {$nodoFilho->id};";
 					$resultCondicao = $conn->query($query);
-					if($resultRegra->num_rows > 0) {
+					if($resultCondicao->num_rows > 0) {
 						while($row = $resultCondicao->fetch_assoc()) {
 							$condicaoFilho = new CondicaoValor();
 							$condicaoFilho->id = $row['id'];
 							$condicaoFilho->sistema = $this->sistema;
 							$condicaoFilho->op = $row['op'];
-							$condicaoFilho->variavel = unserialize($_SESSION[$sistema]['variaveis'][$row['id']]['variavel']);
+							$condicaoFilho->variavel = unserialize($_SESSION[$this->sistema]['variaveis'][$row['variavel']]['variavel']);
 							$condicaoFilho->valor = $row['valor'];
 							
 							$nodoFilho->condicao[] = $condicaoFilho;
@@ -111,4 +111,6 @@
 			
 		}
 	}
+	
+	endif;
 ?>

@@ -21,7 +21,7 @@
 	
 	try{
 		foreach($_SESSION[$sistema]['arvores'] as $aDescobrir){
-			if($_SESSION[$sistema]['variaveis'][$aDescobrir]['valor'] === NULL){
+			if($_SESSION[$sistema]['variaveis'][$aDescobrir->objetivo->id]['valor'] === NULL){
 				$nodoObjetivo = new Nodo();
 				$nodoObjetivo->sistema =$sistema;
 				$nodoObjetivo->seekFilhos($aDescobrir);

@@ -73,14 +73,14 @@
             );
 			
 			// acessar o banco pegar os objetivos e para cada objetivo criar uma arvore
-			$query = "SELECT id FROM variavel WHERE sistema = '{$sistema}' AND objetivo = 1;";
-			$result = $conn->query($query);
-			if($result->num_rows > 0) {
-				// atribui as linhas retornadas
-				while($row = $result->fetch_assoc()) {
-					$_SESSION[$sistema]['arvores'][] = new Arvore($row['id']);
-				}
-			}
+//			$query = "SELECT id FROM variavel WHERE sistema = '{$sistema}' AND objetivo = 1;";
+//			$result = $conn->query($query);
+//			if($result->num_rows > 0) {
+//				// atribui as linhas retornadas
+//				while($row = $result->fetch_assoc()) {
+//					$_SESSION[$sistema]['arvores'][] = new Arvore($row['id']);
+//				}
+//			}
 			
 			// acessar o banco pegar as variaveis
 			$query = "SELECT * FROM variavel WHERE sistema = '{$sistema}';";
@@ -95,6 +95,12 @@
 					$varivavel->questionavel = $row['questionavel'];
 					$varivavel->pergunta = $row['pergunta'];
 					$varivavel->descricao = $row['descricao'];
+					
+					if($row['objetivo'] == 1){
+						$arvore = new Arvore();
+						$arvore->objetivo = $varivavel;
+						$_SESSION[$sistema]['arvores'][] = $arvore;
+					}
 					
 					// criando um array pra cada variavel
 					$_SESSION[$sistema]['variaveis'][$varivavel->id] = array(

@@ -21,7 +21,7 @@
 	
 	try{
 		foreach($_SESSION[$sistema]['arvores'] as $aDescobrir){
-			if(!isset($_SESSION[$sistema]['variaveis'][$aDescobrir]['valor'])){
+			if($_SESSION[$sistema]['variaveis'][$aDescobrir]['valor'] === NULL){
 				$nodoObjetivo = new Nodo();
 				$nodoObjetivo->sistema =$sistema;
 				$nodoObjetivo->seekFilhos($aDescobrir);
@@ -34,7 +34,7 @@
 		// pois se o objetivo já tiver sido encontrado, então ele vai pra outro
 		$variavel = $nodo[0]->filhos[0]->expandir();
 		
-		if(isset($variavel)){
+		if($variavel !== NULL){
 			$result['error'] = FALSE;
 			$result['content'] = array(
 				'id' => $variavel->id,

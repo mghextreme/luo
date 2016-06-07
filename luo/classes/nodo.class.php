@@ -29,31 +29,33 @@
 			// ids para perguntar
 			$aumento = count($this->filhos);
 			
-			// para cada condição de condições
-			foreach($codicoes as $condicao){
-				// verifica se a variavel tem valor ou não
-				if(!isset($_SESSION[$sistema]['variaveis'][$condicao->variavel->id]['valor'])){
-					$this->seekFilhos($condicao->variavel->id);
+			if(count($condicao) > 0){
+				// para cada condição de condições
+				foreach($codicoes as $condicao){
+					// verifica se a variavel tem valor ou não
+					if($_SESSION[$sistema]['variaveis'][$condicao->variavel->id]['valor'] === NULL){
+						$this->seekFilhos($condicao->variavel->id);
 
-					if(count($this->filhos) == $aumento){
-						$variavel = unserialize($_SESSION[$sistema]['variaveis'][$condicao->variavel->id]['variavel']);
+						if(count($this->filhos) == $aumento){
+							$variavel = unserialize($_SESSION[$sistema]['variaveis'][$condicao->variavel->id]['variavel']);
 
-						if($variavel->questionavel){
-							// retorna uma variavel que deve ser questionada
-							return $variavel;
+							if($variavel->questionavel){
+								// retorna uma variavel que deve ser questionada
+								return $variavel;
+							} else {
+								return NULL;
+							}
 						} else {
-							return NULL;
+							// fazer a decida, para achar uma variavel a questionar
+							return $this->filhos[count($this->filhos) - 1]->expandir();
 						}
-					} else {
-						// fazer a decida, para achar uma variavel a questionar
-						return $this->filhos[count($this->filhos) - 1]->expandir();
-					}
 
-					$aumento = count($this->filhos);
+						$aumento = count($this->filhos);
+					}
 				}
-			}
-			unset($condicao);
-			
+				unset($condicao);
+				} 
+			return NULL;
 		}
 		
 		// metodo pra procurar e gerar nodos filhos

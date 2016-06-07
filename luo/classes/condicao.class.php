@@ -80,28 +80,28 @@
 		// bool - implementação do método descrito em Condicao
 			// priorizar execução
 		public function IsTrue(){
-			foreach($condicoes as $condicao){
-				switch ($this->op){
-					case '&&':
-						if(!$condicao->isTrue()){
-							return FALSE;
-						}
-						break;
-					case '||':
-						if($condicao->isTrue()){
-							return TRUE;
-						}
-						break;
-						
-						// ta feito não garanto que vai ter
-					case '!':
-						return !$condicao->isTrue();
-						break;
-				}
-			}
-			unset($condicao);
-			
 			if(count($condicoes) > 0){
+				foreach($condicoes as $condicao){
+					switch ($this->op){
+						case '&&':
+							if(!$condicao->isTrue()){
+								return FALSE;
+							}
+							break;
+						case '||':
+							if($condicao->isTrue()){
+								return TRUE;
+							}
+							break;
+
+							// ta feito não garanto que vai ter
+						case '!':
+							return !$condicao->isTrue();
+							break;
+					}
+				}
+				unset($condicao);
+				
 				return $this->op == '&&';
 			}
 			

@@ -1,4 +1,7 @@
 <?php
+	if (!isset($_SESSION))
+	{ session_start(); }
+	
 	if (!function_exists('connectDatabase')){
 		include(dirname(__FILE__).'/config.php');
 		

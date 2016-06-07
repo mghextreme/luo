@@ -5,9 +5,10 @@
 	}
 	
 	include(__DIR__.'/base.php');
+	connectDatabase();
 
 	// pegando o sistema
-	$sistema = $_POST['system']
+	$sistema = $_POST['system'];
 	
 	// array de retorno
 	$result = array(
@@ -18,6 +19,10 @@
 //	chamar o nodo inicializar ele e fazer a expanção para fazer as perguntas
 
 	$nodo = array();
+	
+	if (!isset($_SESSION[$sistema])){
+		iniSystem($sistema);
+	}
 	
 	try{
 		foreach($_SESSION[$sistema]['arvores'] as $aDescobrir){
@@ -38,7 +43,7 @@
 			$result['error'] = FALSE;
 			$result['content'] = array(
 				'id' => $variavel->id,
-				'pergunta' => $variavel->pergunta;
+				'pergunta' => $variavel->pergunta
 			);
 		} else {
 			// não possui uma variavel para questionar

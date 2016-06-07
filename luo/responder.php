@@ -15,7 +15,6 @@
 			</div>
 			<div id="content">
 				<!-- Tela de Intro -->
-<!--
 				<div id="intro">
 					<h2>Bem vindo ao Nome do Sistema</h2>
 					<p>
@@ -28,10 +27,10 @@
 						<span class="author"><b>Autor do sistema:</b> Matias G H</span>
 						<span class="date"><b>Data de criação:</b> 01/06/2016</span>
 					</div>
-					<button id="start">Iniciar</button>
+					<button id="start">Iniciar<span class="fa">&#xf054;</span></button>
 				</div>
--->
 				<!-- Tela de Pergunta -->
+<!--
 				<form id="question" name="question" method="post">
 					<input type="hidden" id="variable" value="13" />
 					<h2>Qual a sua operadora de telefonia?</h2>
@@ -43,10 +42,18 @@
 						<li tabindex="0"><input type="radio" name="val" value="4" />Oi</li>
 						<li tabindex="0"><input type="radio" name="val" value="5" />Outra</li>
 					</ul>
+					<div id="field" class="string">
+						<input type="text" name="val" value="" />
+					</div>
 					<div class="bottom">
-						<button id="next">Next</button>
+						<div id="certeza">
+							<label for="certeza">Certeza (%)</label>
+							<input type="text" name="certeza" value="1.0" />
+						</div>
+						<button id="next">Avançar<span class="fa">&#xf054;</span></button>
 					</div>
 				</form>
+-->
 			</div>
 			<div id="footer">
 				<span class="desc"><strong>Lúo</strong> - Sistemas Especialistas</span>

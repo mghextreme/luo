@@ -241,6 +241,8 @@ div#responder > div#content > div#intro > button#start {
 div#responder > div#content > div#intro > button#start:hover,
 div#responder > div#content > div#intro > button#start:focus { background: #293243; }
 
+div#responder > div#content > div#intro > button#start > span { margin-left: 8px; }
+
 /* - - - - - - - - Content # Question - - - - - - - - */
 
 div#responder > div#content > form#question {
@@ -275,23 +277,70 @@ div#responder > div#content > form#question > #field.options > li {
 	padding: 8px 12px;
 	font-size: 16px;
 	line-height: 22px;
-	color: white;
-	background: #485775;
+	color: #333;
+	background: #e6e6e6;
 	cursor: pointer;
 }
 div#responder > div#content > form#question > #field.options > li + li { margin-top: 5px; }
 div#responder > div#content > form#question > #field.options > li:hover,
-div#responder > div#content > form#question > #field.options > li:focus { padding: 6px 10px; border: 2px solid white; }
-div#responder > div#content > form#question > #field.options > li.selected { background: #293243; }
+div#responder > div#content > form#question > #field.options > li:focus { background: #ccc; }
+div#responder > div#content > form#question > #field.options > li.selected { background: #485775; color: white; }
 
 div#responder > div#content > form#question > #field.options > li > input { display: none; }
 
+div#responder > div#content > form#question > #field.string {
+	width: 100%;
+	max-width: 500px;
+}
+
+div#responder > div#content > form#question > #field.string > input {
+	width: 100%;
+	padding: 11px 15px;
+	font-size: 16px;
+	line-height: 24px;
+	color: #333;
+	background: #e6e6e6;
+}
+
+div#responder > div#content > form#question > div.bottom {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	align-content: center;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+div#responder > div#content > form#question > div.bottom > div#certeza {
+	width: 120px;
+	margin-left: 0;
+}
+
+div#responder > div#content > form#question > div.bottom > div#certeza > label {
+	display: block;
+	margin-bottom: 2px;
+	font-size: 14px;
+	line-height: 18px;
+	color: #555;
+}
+
+div#responder > div#content > form#question > div.bottom > div#certeza > input {
+	width: 100%;
+	padding: 12px 15px;
+	font-size: 16px;
+	line-height: 24px;
+	color: #333;
+	background: #e6e6e6;
+}
+
 div#responder > div#content > form#question > div.bottom > button#next {
 	display: block;
-	padding: 12px 35px;
-	margin: 20px auto 0 auto;
+	width: 200px;
+	padding: 12px 0;
+	margin: 22px 0 0 auto;
 	font-size: 16px;
-	line-height: 22px;
+	line-height: 24px;
+	text-align: center;
 	text-transform: uppercase;
 	color: white;
 	background: #485775;
@@ -299,6 +348,8 @@ div#responder > div#content > form#question > div.bottom > button#next {
 }
 div#responder > div#content > form#question > div.bottom > button#next:hover,
 div#responder > div#content > form#question > div.bottom > button#next:focus { background: #293243; }
+
+div#responder > div#content > form#question > div.bottom > button#next > span { margin-left: 8px; }
 
 /* - - - - - - - - Top - - - - - - - - */
 

@@ -209,23 +209,96 @@ div#responder > div#content > div#intro > p {
 	line-height: 22px;
 }
 
-div#responder > div#content > div.info {
+div#responder > div#content > div#intro > div.info {
 	display: flex;
 	flex-wrap: nowrap;
 	align-items: center;
 	align-content: center;
-	justify-content: center;
+	justify-content: space-between;
 	margin-top: 20px;
 }
 
-div#responder > div#content > div.info > span {
+div#responder > div#content > div#intro > div.info > span {
 	display: inline-block;
 	flex: 0 0 auto;
 	font-size: 16px;
 	line-height: 22px;
 }
-div#responder > div#content > div.info > span.author { margin-left: 0; }
-div#responder > div#content > div.info > span.date { margin-right: 0; }
+div#responder > div#content > div#intro > div.info > span.author { margin-left: 0; }
+div#responder > div#content > div#intro > div.info > span.date { margin-right: 0; }
+
+div#responder > div#content > div#intro > button#start {
+	display: block;
+	padding: 12px 35px;
+	margin: 20px auto 0 auto;
+	font-size: 16px;
+	line-height: 22px;
+	text-transform: uppercase;
+	color: white;
+	background: #485775;
+	cursor: pointer;
+}
+div#responder > div#content > div#intro > button#start:hover,
+div#responder > div#content > div#intro > button#start:focus { background: #293243; }
+
+/* - - - - - - - - Content # Question - - - - - - - - */
+
+div#responder > div#content > form#question {
+	text-align: center;
+}
+
+div#responder > div#content > form#question > h2 {
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 30px;
+	color: #222;
+}
+
+div#responder > div#content > form#question > p {
+	margin-top: 3px;
+	font-size: 14px;
+	line-height: 20px;
+	color: #555;
+}
+
+div#responder > div#content > form#question > #field {
+	margin-top: 20px;
+}
+
+div#responder > div#content > form#question > #field.options {
+	width: 100%;
+	max-width: 500px;
+}
+
+div#responder > div#content > form#question > #field.options > li {
+	width: 100%;
+	padding: 8px 12px;
+	font-size: 16px;
+	line-height: 22px;
+	color: white;
+	background: #485775;
+	cursor: pointer;
+}
+div#responder > div#content > form#question > #field.options > li + li { margin-top: 5px; }
+div#responder > div#content > form#question > #field.options > li:hover,
+div#responder > div#content > form#question > #field.options > li:focus { padding: 6px 10px; border: 2px solid white; }
+div#responder > div#content > form#question > #field.options > li.selected { background: #293243; }
+
+div#responder > div#content > form#question > #field.options > li > input { display: none; }
+
+div#responder > div#content > form#question > div.bottom > button#next {
+	display: block;
+	padding: 12px 35px;
+	margin: 20px auto 0 auto;
+	font-size: 16px;
+	line-height: 22px;
+	text-transform: uppercase;
+	color: white;
+	background: #485775;
+	cursor: pointer;
+}
+div#responder > div#content > form#question > div.bottom > button#next:hover,
+div#responder > div#content > form#question > div.bottom > button#next:focus { background: #293243; }
 
 /* - - - - - - - - Top - - - - - - - - */
 

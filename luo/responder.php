@@ -14,6 +14,8 @@
 				<span id="reset" tabindex="0">Reiniciar</span>
 			</div>
 			<div id="content">
+				<!-- Tela de Intro -->
+<!--
 				<div id="intro">
 					<h2>Bem vindo ao Nome do Sistema</h2>
 					<p>
@@ -28,6 +30,23 @@
 					</div>
 					<button id="start">Iniciar</button>
 				</div>
+-->
+				<!-- Tela de Pergunta -->
+				<form id="question" name="question" method="post">
+					<input type="hidden" id="variable" value="13" />
+					<h2>Qual a sua operadora de telefonia?</h2>
+					<p>A operadora de celular que você utiliza com mais frequência.</p>
+					<ul id="field" class="options">
+						<li tabindex="0"><input type="radio" name="val" value="1" />Claro</li>
+						<li tabindex="0"><input type="radio" name="val" value="2" />Tim</li>
+						<li tabindex="0" class="selected"><input type="radio" name="val" value="3" />Vivo</li>
+						<li tabindex="0"><input type="radio" name="val" value="4" />Oi</li>
+						<li tabindex="0"><input type="radio" name="val" value="5" />Outra</li>
+					</ul>
+					<div class="bottom">
+						<button id="next">Next</button>
+					</div>
+				</form>
 			</div>
 			<div id="footer">
 				<span class="desc"><strong>Lúo</strong> - Sistemas Especialistas</span>
@@ -42,6 +61,10 @@
 			}
 			
 			$(function(){
+				$('div#intro > button#start').on('click keydown', function(e){
+					if ($clicked(e.which)){ $next(); }
+				});
+				
 				$('div#top > span#reset').on('click keydown', function(e){
 					if ($clicked(e.which)){
 						alert('REINICIAR PROGRAMA');

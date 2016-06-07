@@ -63,6 +63,7 @@
 		<script type="text/javascript" charset="utf-8">
 			$next = function(){
 				$.post('func/next-question.php', { system: <?=$system;?> }, function(result){
+//					alert(result);
 					console.log(result);
 				});
 			}

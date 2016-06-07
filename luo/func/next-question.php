@@ -34,7 +34,8 @@
 		foreach ($arvores as $item){
 			if ($_SESSION[$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
 				$item->raiz->seekFilhos($item->objetivo->id);
-				$variavel = $item->raiz->expandir();
+				print_r($item->raiz->filhos[0]);
+				$variavel = $item->raiz->filhos[0]->expandir();
 				break;
 			}
 		}

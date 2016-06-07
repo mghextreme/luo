@@ -28,7 +28,7 @@
 		public function expandir(){
 			// ids para perguntar
 			$aumento = count($this->filhos);
-			
+
 			if(count($this->condicoes) > 0){
 				// para cada condição de condições
 				foreach($this->condicoes as $condicao){
@@ -54,7 +54,7 @@
 					}
 				}
 				unset($condicao);
-				} 
+			} 
 			return NULL;
 		}
 		
@@ -84,7 +84,7 @@
 							$consequenciaNodo->valor = $row['valor'];
 							$consequenciaNodo->certeza = $row['certeza'];
 							
-							$nodoFilho->consequencia[] = $consequenciaNodo;
+							$nodoFilho->consequencias[] = $consequenciaNodo;
 						}
 					}
 					
@@ -100,7 +100,7 @@
 							$condicaoFilho->variavel = unserialize($_SESSION[$this->sistema]['variaveis'][$row['variavel']]['variavel']);
 							$condicaoFilho->valor = $row['valor'];
 							
-							$nodoFilho->condicao[] = $condicaoFilho;
+							$nodoFilho->condicoes[] = $condicaoFilho;
 						}
 					}
 					

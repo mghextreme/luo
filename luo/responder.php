@@ -4,30 +4,44 @@
 	$system = $_GET['id'];
 	
 	include(__DIR__.'/header.php');
+	
+	$stmt = $conn->prepare("SELECT `S`.`id`,`S`.`nome`,`S`.`descricao`,`S`.`datetime`,`U`.`nome` AS `autor` FROM `sistema` `S` INNER JOIN `usuario` `U` ON `S`.`usuario`=`U`.`id` WHERE `S`.`id`=?");
+	$stmt->bind_param('i', $system);
+	$stmt->execute();
+	$query = $stmt->get_result();
+	
+	$sistema = array();
+	if ($query->num_rows > 0){
+		$sistema = $query->fetch_assoc();
+		$sistema['datetime'] = new DateTime($sistema['datetime']);
+	} else {
+		$sistema = array(
+			'id' => 0,
+			'nome' => 'Sistema não existente',
+			'descricao' => "Este link não é válido.\n\nO sistema pode ter sido removido ou o link está quebrado."
+		);
+	}
 ?>
 		<title>Luo</title>
 	</head>
 	<body>
 		<div id="responder" class="center">
 			<div id="top">
-				<h1>Nome do sistema</h1>
+				<h1><?=$sistema['nome'];?></h1>
 				<span id="reset" tabindex="0">Reiniciar</span>
 			</div>
 			<div id="content">
 				<!-- Tela de Intro -->
 				<div id="intro">
-					<h2>Bem vindo ao Nome do Sistema</h2>
-					<p>
-						Aqui está um descrição em Latim enquanto o sistema não está pronto:<br/><br/>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eget metus egestas, porttitor odio vitae, pellentesque massa. Aenean a urna mattis tortor vestibulum hendrerit at at erat. In vel leo mollis dui suscipit dignissim.<br/><br/>
-						Nunc bibendum, lorem nec feugiat gravida, libero augue dictum arcu, vel tincidunt sem neque eget nibh. Donec mollis nisi at elit malesuada, sed iaculis urna ornare. Fusce quis arcu in felis aliquam iaculis quis a urna. Praesent at augue sem.<br/><br/>
-						Suspendisse potenti. Vestibulum sit amet diam aliquam, scelerisque quam quis, auctor leo. Curabitur consequat lorem ullamcorper tortor pharetra egestas.
-					</p>
+					<h2>Bem vindo</h2>
+					<p><?=nl2br($sistema['descricao']);?></p>
+					<?php if ($sistema['id'] > 0) : ?>
 					<div class="info">
-						<span class="author"><b>Autor do sistema:</b> Matias G H</span>
-						<span class="date"><b>Data de criação:</b> 01/06/2016</span>
+						<span class="author"><b>Autor do sistema:</b> <?=$sistema['autor'];?></span>
+						<span class="date"><b>Data de criação:</b> <?=$sistema['datetime']->format('d/m/Y');?></span>
 					</div>
 					<button id="start">Iniciar<span class="fa">&#xf054;</span></button>
+					<?php endif; ?>
 				</div>
 				<!-- Tela de Pergunta -->
 <!--
@@ -63,8 +77,7 @@
 		<script type="text/javascript" charset="utf-8">
 			$next = function(){
 				$.post('func/next-question.php', { system: <?=$system;?> }, function(result){
-//					alert(result);
-					console.log(result);
+					
 				});
 			}
 			

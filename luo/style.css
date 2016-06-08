@@ -359,8 +359,7 @@ div#responder > div#footer {
 	align-items: center;
 	align-content: center;
 	justify-content: center;
-	padding: 0 10px;
-	margin-top: 20px;
+	padding: 20px 10px 40px 10px;
 }
 
 div#responder > div#footer > span {

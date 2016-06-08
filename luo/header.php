@@ -25,5 +25,8 @@
 		<script type="text/javascript" src="js/base.js"></script>
 		<script type="text/javascript" charset="utf-8">var adm = '<?=$website['link'];?>/';</script>
 		
+		<!-- FontAwesome -->
+		<link href="font-awesome/css/font-awesome.font-only.css" rel="stylesheet" type="text/css" />
+		
 		<!-- Google WebFonts -->
 		<link href='https://fonts.googleapis.com/css?family=Lato:400,700,300' rel='stylesheet' type='text/css'>

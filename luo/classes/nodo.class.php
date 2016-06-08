@@ -89,7 +89,6 @@
 					}
 					
 					// pegas as condições para aquela regra
-					// melhorar a criação
 					$query = "SELECT condicao.* FROM condicao WHERE condicao.regra = {$nodoFilho->id};";
 					$resultCondicao = $conn->query($query);
 					if($resultCondicao->num_rows > 0) {
@@ -107,39 +106,6 @@
 					
 					// condicionar a aceitação do filho, por hora caminho feliz
 					$this->filhos[] = $nodoFilho;
-				}
-			}
-			
-		}
-		
-		public function inferir(){
-			if(count($this->filhos) > 0){
-				foreach($this->filhos as $filho){
-					$filho->inferir();
-				}
-				unset($filho);
-			}
-			
-			$temConsequencia = TRUE;
-			if(count($this->condicoes) > 0){
-				foreach($this->condicoes as $condicao){
-					if(!$condicao->isTrue()){
-						return FALSE;
-					}
-				}
-				unset($condicao);
-			}
-			
-			if(!isset($_SESSION)){
-                session_start();
-            }
-			
-			if($temConsequencia){
-				if(count($this->consequencias) > 0){
-					foreach($this->consequencias as $consequencia){
-						$_SESSION['s'.$sistema]['variaveis'][$consequencia->id]['valor'] = $consequencia->valor;
-					}
-					unset($consequencia);
 				}
 			}
 			

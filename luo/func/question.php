@@ -19,6 +19,8 @@
 		}
 		return NULL;
 	}
+	
+	
 
 	function next_question($sistema){
 		// array de retorno
@@ -37,9 +39,9 @@
 			$arvores = array();
 
 			foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
-				$arvore = unserialize($aDescobrir);
-				if(!$arvore->resolvido){
-					$arvores[] = $arvore;
+				$galho = unserialize($aDescobrir);
+				if(!$galho->resolvido){
+					$arvores[] = $galho;
 				}
 			}
 			unset($aDescobrir);

@@ -44,7 +44,10 @@
 		$arvores = array();
 		
 		foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
-			$arvores[] = unserialize($aDescobrir);
+			$galho = unserialize($aDescobrir);
+			if(!$galho->resolvido){
+				$arvores[] = $galho;
+			}
 		}
 		unset($aDescobrir);
 		
@@ -59,16 +62,21 @@
 		
 		if ($variavel !== NULL){
 			$opcoes = getOpcoes($variavel);
-			
-			
 			$result['error'] = FALSE;
 			$result['content'] = array(
+				'resolvido' => FALSE,
 				'variavel' => $variavel,
 				'opcoes' => $opcoes
 			);
+		} elseif(count($arvores) == 0){
+			$opcoes = getOpcoes($variavel);
+			$result['error'] = FALSE;
+			$result['content'] = array(
+				'resolvido' => TRUE
+			);
 		} else {
 			// não possui uma variavel para questionar
-			$result['content'] = 'null';	
+			$result['content'] = 'null';
 		}
 
 		

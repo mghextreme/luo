@@ -39,9 +39,9 @@
 			$arvores = array();
 
 			foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
-				$galho = unserialize($aDescobrir);
-				if(!$galho->resolvido){
-					$arvores[] = $galho;
+				$arvore = unserialize($aDescobrir);
+				if(!$arvore->resolvido){
+					$arvores[] = $arvore;
 				}
 			}
 			unset($aDescobrir);
@@ -50,6 +50,7 @@
 			foreach ($arvores as $item){
 				if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
 					$item->raiz->seekFilhos($item->objetivo->id);
+//					print_r($item->raiz);
 					$variavel = $item->raiz->filhos[0]->expandir();
 					break;
 				}

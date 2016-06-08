@@ -77,16 +77,7 @@
                 'arvores' => array()
             );
 			
-			// acessar o banco pegar os objetivos e para cada objetivo criar uma arvore
-//			$query = "SELECT id FROM variavel WHERE sistema = '{$sistema}' AND objetivo = 1;";
-//			$result = $conn->query($query);
-//			if($result->num_rows > 0) {
-//				// atribui as linhas retornadas
-//				while($row = $result->fetch_assoc()) {
-//					$_SESSION['s'.$sistema]['arvores'][] = new Arvore($row['id']);
-//				}
-//			}
-			
+			$floresta = array();
 			// acessar o banco pegar as variaveis
 			$query = "SELECT * FROM variavel WHERE sistema = '{$sistema}';";
 			$result = $conn->query($query);
@@ -105,6 +96,8 @@
 						$arvore->raiz = new Nodo(0);
 						$arvore->raiz->sistema = $sistema;
 						$_SESSION['s'.$sistema]['arvores'][] = serialize($arvore);
+//						$floresta[] = $arvore;
+						
 					}
 					
 					// criando um array pra cada variavel
@@ -116,6 +109,15 @@
 					);
 				}
 			}
+			
+//			if(count($floresta)>0){
+//				foreach($floresta as $item){
+//					$item->raiz->seekFilhos($item->objetivo->id);
+//					echo($item);
+//					$_SESSION['s'.$sistema]['arvores'][] = serialize($item);
+//				}
+//				unset($item);
+//			}
         }
 	}
 ?>

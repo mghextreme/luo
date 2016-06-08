@@ -21,6 +21,25 @@
 			'descricao' => "Este link não é válido.\n\nO sistema pode ter sido removido ou o link está quebrado."
 		);
 	}
+	
+	$pergunta = NULL;
+	$solved = FALSE;
+	if (isset($_SESSION['s'.$system])){
+		$solved = TRUE;
+		foreach ($_SESSION['s'.$system]['arvores'] as $arv){
+			$arv = unserialize($arv);
+			if (!$arv->resolvido){
+				$solved = FALSE;
+				break;
+			}
+		}
+		
+		if ($solved){
+			// Carregar respostas
+		} else {
+			// Carregar pergunta
+		} 
+	}
 ?>
 		<title>Luo</title>
 	</head>
@@ -31,6 +50,7 @@
 				<span id="reset" tabindex="0">Reiniciar</span>
 			</div>
 			<div id="content">
+				<?php if (empty($pergunta)) : ?>
 				<!-- Tela de Intro -->
 				<div id="intro">
 					<h2>Bem vindo</h2>
@@ -43,31 +63,42 @@
 					<button id="start">Iniciar<span class="fa">&#xf054;</span></button>
 					<?php endif; ?>
 				</div>
+				<?php else : ?>
 				<!-- Tela de Pergunta -->
-<!--
-				<form id="question" name="question" method="post">
-					<input type="hidden" id="variable" value="13" />
-					<h2>Qual a sua operadora de telefonia?</h2>
-					<p>A operadora de celular que você utiliza com mais frequência.</p>
+				<form id="question" name="question" method="post" action="javascript:$next()">
+					<input type="hidden" id="variable" name="variable" value="<?=$pergunta['id'];?>" />
+					<?php if (empty($pergunta['pergunta'])) : ?>
+					<h2>Qual o valor de <?=$pergunta['nome'];?>?</h2>
+					<?php else : ?>
+					<h2><?=$pergunta['pergunta'];?></h2>
+					<?php if (!empty($pergunta['descricao'])) : ?>
+					<p><?=$pergunta['descricao'];?></p>
+					<?php endif; endif; switch (strtoupper($pergunta['tipo'])) : case 'OPCAO': ?>
 					<ul id="field" class="options">
 						<li tabindex="0"><input type="radio" name="val" value="1" />Claro</li>
 						<li tabindex="0"><input type="radio" name="val" value="2" />Tim</li>
-						<li tabindex="0" class="selected"><input type="radio" name="val" value="3" />Vivo</li>
+						<li tabindex="0"><input type="radio" name="val" value="3" />Vivo</li>
 						<li tabindex="0"><input type="radio" name="val" value="4" />Oi</li>
 						<li tabindex="0"><input type="radio" name="val" value="5" />Outra</li>
 					</ul>
+					<?php break; case 'TEXTO': ?>
 					<div id="field" class="string">
 						<input type="text" name="val" value="" />
 					</div>
+					<?php break; case 'NUMERO': ?>
+					<div id="field" class="number">
+						<input type="text" name="val" value="" />
+					</div>
+					<?php break; endswitch; ?>
 					<div class="bottom">
 						<div id="certeza">
 							<label for="certeza">Certeza (%)</label>
 							<input type="text" name="certeza" value="1.0" />
 						</div>
-						<button id="next">Avançar<span class="fa">&#xf054;</span></button>
+						<button id="submit">Avançar<span class="fa">&#xf054;</span></button>
 					</div>
 				</form>
--->
+				<?php endif; ?>
 			</div>
 			<div id="footer">
 				<span class="desc"><strong>Lúo</strong> - Sistemas Especialistas</span>
@@ -77,8 +108,94 @@
 		<script type="text/javascript" charset="utf-8">
 			$next = function(){
 				$.post('func/next-question.php', { system: <?=$system;?> }, function(result){
-					
+					try {
+						var rs = JSON.parse(result);
+						
+						if (rs.error){
+							switch (rs.content){
+								case 'null':
+									// Nada para questionar
+									$box.alert('Nenhuma pergunta a ser questionada.');
+									break;
+								default:
+									throw rs.content;
+									break;
+							}
+							return;
+						}
+						
+						if (!rs.content.resolvido){
+							$setQuestion(rs.content);
+							return;
+						}
+						
+						alert('Resolvido!');
+					}
+					catch (err){
+						console.log(err.message);
+						console.log(result);
+					}
 				});
+			}
+
+			$setQuestion = function(cont){
+				var content = $('div#content'),
+					act, form;
+				
+				if (content.children('form#question').size() == 0){
+					var act = content.children('div#intro');
+					form = $('<form>').attr({ id: 'question', name: 'question', method: 'post', action: 'javascript:$next()' }).css({ display: 'none' });
+					form.append($('<input>').attr({ id: 'variable', name: 'variable', type: 'hidden' }).val(cont.variavel.id));
+					form.append($('<h2>').text(cont.variavel.pergunta != null ? cont.variavel.pergunta : 'Qual o valor de ' + cont.variavel.nome + '?'));
+					if (cont.variavel.descricao != null)
+					{ form.append($('<p>').text(cont.variavel.descricao)); }
+					
+					var field;
+					switch (cont.variavel.tipo){
+						case 'OPCAO':
+							field = $('<ul>').attr({ id: 'field', class: 'options' });
+							for (var i in cont.opcoes){
+								field.append(
+									$('<li>').attr({ tabindex: 0 })
+									.append($('<input>').attr({ name: 'val', type: 'radio', value: i }))
+									.append(cont.opcoes[i])
+								);
+							}
+							break;
+						default:
+							field = $('<p>').text('Desconhecido.');
+							break;
+					}
+					form.append(field);
+					
+					var bottom = $('<div>').addClass('bottom');
+					
+					bottom.append(
+						$('<div>').attr({ id: 'certeza' })
+						.append($('<label>').attr({ for: 'certeza' }).text('Certeza (%)'))
+						.append($('<input>').attr({ type: 'text', name: 'certeza', value: '1.0' }))
+					);
+					bottom.append(
+						$('<button>').attr({ id: 'next', type: 'submit' })
+						.append('Avançar')
+						.append($('<span>').addClass('fa').html('&#xf054;'))
+					);
+					
+					form.append(bottom);
+					
+					content.append(form);
+					
+					
+					// ANIMAÇÃO AQUI
+					
+					
+					act.remove();
+					form.css({ display: 'block' });
+				}
+				else {
+					form = content.children('form#quetion');
+					act = form;
+				}
 			}
 			
 			$(function(){

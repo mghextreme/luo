@@ -33,11 +33,11 @@
 				// para cada condição de condições
 				foreach($this->condicoes as $condicao){
 					// verifica se a variavel tem valor ou não
-					if($_SESSION[$this->sistema]['variaveis'][$condicao->variavel->id]['valor'] === NULL){
+					if($_SESSION['s'.$this->sistema]['variaveis'][$condicao->variavel->id]['valor'] === NULL){
 						$this->seekFilhos($condicao->variavel->id);
 
 						if(count($this->filhos) == $aumento){
-							$variavel = unserialize($_SESSION[$this->sistema]['variaveis'][$condicao->variavel->id]['variavel']);
+							$variavel = unserialize($_SESSION['s'.$this->sistema]['variaveis'][$condicao->variavel->id]['variavel']);
 
 							if($variavel->questionavel){
 								// retorna uma variavel que deve ser questionada
@@ -80,7 +80,7 @@
 						while($row = $resulConsequencia->fetch_assoc()){
 							$consequenciaNodo = new Consequencia();
 							$consequenciaNodo->id = $row['id'];
-							$consequenciaNodo->variavel = unserialize($_SESSION[$this->sistema]['variaveis'][$row['variavel']]['variavel']);
+							$consequenciaNodo->variavel = unserialize($_SESSION['s'.$this->sistema]['variaveis'][$row['variavel']]['variavel']);
 							$consequenciaNodo->valor = $row['valor'];
 							$consequenciaNodo->certeza = $row['certeza'];
 							
@@ -97,7 +97,7 @@
 							$condicaoFilho->id = $row['id'];
 							$condicaoFilho->sistema = $this->sistema;
 							$condicaoFilho->op = $row['op'];
-							$condicaoFilho->variavel = unserialize($_SESSION[$this->sistema]['variaveis'][$row['variavel']]['variavel']);
+							$condicaoFilho->variavel = unserialize($_SESSION['s'.$this->sistema]['variaveis'][$row['variavel']]['variavel']);
 							$condicaoFilho->valor = $row['valor'];
 							
 							$nodoFilho->condicoes[] = $condicaoFilho;

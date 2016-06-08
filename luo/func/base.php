@@ -66,11 +66,11 @@
                 session_start();
             }
 			
-            if(isset($_SESSION[$sistema])){
-                $_SESSION[$sistema] = null;
+            if(isset($_SESSION['s'.$sistema])){
+                $_SESSION['s'.$sistema] = null;
             }
             
-            $_SESSION[$sistema] = array(
+            $_SESSION['s'.$sistema] = array(
 				// variaveis
                 'variaveis' => array(),
 				// variaveis sendo espandidas pela arvore
@@ -83,7 +83,7 @@
 //			if($result->num_rows > 0) {
 //				// atribui as linhas retornadas
 //				while($row = $result->fetch_assoc()) {
-//					$_SESSION[$sistema]['arvores'][] = new Arvore($row['id']);
+//					$_SESSION['s'.$sistema]['arvores'][] = new Arvore($row['id']);
 //				}
 //			}
 			
@@ -104,11 +104,11 @@
 						$arvore = new Arvore($varivavel);
 						$arvore->raiz = new Nodo(0);
 						$arvore->raiz->sistema = $sistema;
-						$_SESSION[$sistema]['arvores'][] = serialize($arvore);
+						$_SESSION['s'.$sistema]['arvores'][] = serialize($arvore);
 					}
 					
 					// criando um array pra cada variavel
-					$_SESSION[$sistema]['variaveis'][$varivavel->id] = array(
+					$_SESSION['s'.$sistema]['variaveis'][$varivavel->id] = array(
 						// chave 'variavel' para um objeto de variavel
 						'variavel' => serialize($varivavel),
 						// chave de 'valor' para o valor da variavel

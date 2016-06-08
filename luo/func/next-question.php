@@ -1,5 +1,23 @@
 <?php
 	
+	function getOpcoes($variavel){
+		global $conn;
+		
+		$query = "SELECT * FROM opcao WHERE variavel = {$variavel->id};";
+		$result = $conn->query($query);
+		
+		$opcoes = array();
+		
+		if($result->num_rows > 0){
+			while($row = $result->fetch_assoc()){
+				$opcoes[$row['id']] = $row['valor'];
+			}
+			return $opcoes;
+		}
+		return NULL;
+	}
+
+
 	if(!isset($_POST['system'])){
 		die();
 	}
@@ -18,33 +36,35 @@
 	
 //	chamar o nodo inicializar ele e fazer a expanção para fazer as perguntas
 
-	if (!isset($_SESSION[$sistema])){
+	if (!isset($_SESSION['s'.$sistema])){
 		iniSystem($sistema);
 	}
 	
 	try {
 		$arvores = array();
 		
-		foreach ($_SESSION[$sistema]['arvores'] as $aDescobrir){
+		foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
 			$arvores[] = unserialize($aDescobrir);
 		}
 		unset($aDescobrir);
 		
 		$variavel = NULL;
 		foreach ($arvores as $item){
-			if ($_SESSION[$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
+			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
 				$item->raiz->seekFilhos($item->objetivo->id);
-				print_r($item->raiz->filhos[0]);
 				$variavel = $item->raiz->filhos[0]->expandir();
 				break;
 			}
 		}
 		
 		if ($variavel !== NULL){
+			$opcoes = getOpcoes($variavel);
+			
+			
 			$result['error'] = FALSE;
 			$result['content'] = array(
-				'id' => $variavel->id,
-				'pergunta' => $variavel->pergunta
+				'variavel' => $variavel,
+				'opcoes' => $opcoes
 			);
 		} else {
 			// não possui uma variavel para questionar

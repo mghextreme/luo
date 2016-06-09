@@ -20,42 +20,34 @@
 		return NULL;
 	}
 	
-	
-
-	function next_question($sistema){
+	function getNextQuestion($sistema){
 		// array de retorno
 		$result = array(
 			'error' => TRUE,
 			'content' => 'unknown'
 		);
 
-		//	chamar o nodo inicializar ele e fazer a expanção para fazer as perguntas
-
-		if (!isset($_SESSION['s'.$sistema])){
-			iniSystem($sistema);
-		}
+		//	chamar o nodo inicializar ele e fazer a expansão para fazer as perguntas
+		if (!isset($_SESSION['s'.$sistema]))
+		{ iniSystem($sistema); }
 
 		try {
-			$arvores = array();
-
+			$arvore = NULL;
 			foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
-				$arvore = unserialize($aDescobrir);
-				if(!$arvore->resolvido){
-					$arvores[] = $arvore;
-				}
-			}
-			unset($aDescobrir);
-
-			$variavel = NULL;
-			foreach ($arvores as $item){
-				if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
-					$item->raiz->seekFilhos($item->objetivo->id);
-//					print_r($item->raiz);
-					$variavel = $item->raiz->filhos[0]->expandir();
+				$aDescobrir = unserialize($aDescobrir);
+				if (!$aDescobrir->resolvido){
+					$arvore = $aDescobrir;
 					break;
 				}
 			}
+			unset($aDescobrir);
+			
+			return $arvore;
 
+			$variavel = NULL;
+			if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL)
+			{ $variavel = $arvore->raiz->proximaPergunta(); }
+			
 			if ($variavel !== NULL){
 				$opcoes = getOpcoes($variavel);
 				$result['error'] = FALSE;
@@ -64,7 +56,7 @@
 					'variavel' => $variavel,
 					'opcoes' => $opcoes
 				);
-			} elseif(count($arvores) == 0){
+			} elseif ($arvore == NULL){
 				$opcoes = getOpcoes($variavel);
 				$result['error'] = FALSE;
 				$result['content'] = array(
@@ -75,7 +67,6 @@
 				$result['content'] = 'null';
 			}
 		} catch(Exception $e){
-			// deu ruim
 			$result['content'] = $e->getMessage();
 		}
 		

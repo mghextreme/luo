@@ -7,7 +7,7 @@
 
 	// pegando o sistema
 	$sistema = $_POST['system'];
-
+	
 	if (isset($_POST['variable']) && isset($_POST['val'])){
 		$variable = $_POST['variable'];
 		$val = $_POST['val'];
@@ -45,7 +45,7 @@
 		unset($item);
 	}
 
-	$result = next_question($sistema);
+	$result = getNextQuestion($sistema);
 
 	die(json_encode($result));
 ?>

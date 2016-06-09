@@ -71,14 +71,11 @@
             }
             
             $_SESSION['s'.$sistema] = array(
-				// variaveis
                 'variaveis' => array(),
-				// variaveis sendo espandidas pela arvore
                 'arvores' => array()
             );
 			
 			$floresta = array();
-			// acessar o banco pegar as variaveis
 			$query = "SELECT * FROM variavel WHERE sistema = '{$sistema}';";
 			$result = $conn->query($query);
 			if($result->num_rows > 0) {
@@ -96,28 +93,15 @@
 						$arvore->raiz = new Nodo(0);
 						$arvore->raiz->sistema = $sistema;
 						$_SESSION['s'.$sistema]['arvores'][] = serialize($arvore);
-//						$floresta[] = $arvore;
-						
 					}
 					
 					// criando um array pra cada variavel
 					$_SESSION['s'.$sistema]['variaveis'][$varivavel->id] = array(
-						// chave 'variavel' para um objeto de variavel
 						'variavel' => serialize($varivavel),
-						// chave de 'valor' para o valor da variavel
-						'valor' => NULL,
+						'valor' => NULL
 					);
 				}
 			}
-			
-//			if(count($floresta)>0){
-//				foreach($floresta as $item){
-//					$item->raiz->seekFilhos($item->objetivo->id);
-//					echo($item);
-//					$_SESSION['s'.$sistema]['arvores'][] = serialize($item);
-//				}
-//				unset($item);
-//			}
         }
 	}
 ?>

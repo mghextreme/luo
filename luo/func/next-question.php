@@ -1,16 +1,14 @@
 <?php
+	if (!isset($_POST['system'])){ die(); }
+
+	if (!isset($_SESSION)){ session_start(); }
 	
 	include(__DIR__.'/question.php');
-	
-	if(!isset($_POST['system'])){
-		die();
-	}
 
-	if(!isset($_SESSION)){
-		session_start();
-	}
+	// pegando o sistema
+	$sistema = $_POST['system'];
 
-	if(isset($_POST['variable']) && isset($_POST['val'])){
+	if (isset($_POST['variable']) && isset($_POST['val'])){
 		$variable = $_POST['variable'];
 		$val = $_POST['val'];
 		
@@ -45,10 +43,7 @@
 			}
 		}
 		unset($item);
-	} 
-
-	// pegando o sistema
-	$sistema = $_POST['system'];
+	}
 
 	$result = next_question($sistema);
 

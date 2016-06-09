@@ -3,6 +3,7 @@ TO DO
 ----- Matias
 
 - Interface (HTML/CSS/JS)
+- Exibir respostas (variáveis objetivos)
 
 
 ----- Evandro
@@ -10,7 +11,22 @@ TO DO
 - IniSystem (base.php): Verificar se sistema existe
 
 
+
 IDEIAS
 
-- Sugerir menor caminho
+#admin
+- Senha para entrar em um sistema
+- Importar/Exportar sistemas
+- Interface para criar um sistema
+- Página do Autor
+
+#inferencia
+- ELSE
+- Sugerir menor caminho (ou deixar pessoa escolher se quer por Ordem, Menos perguntas, etc...)
 - Notificar inconsistências
+
+#campos
+- Float
+- Comparar campos
+- Regular Expression para String
+- (Múltiplos?) Intervalos para numéricos

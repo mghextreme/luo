@@ -18,7 +18,7 @@ ul, ol, div, span, input, textarea, select, li, form, label, html, body { box-si
 
 ul, ol { list-style: none; }
 
-input[type=image], input[type=submit], a, select { cursor: pointer; }
+input[type=image], input[type=submit], a[href], select { cursor: pointer; }
 
 input, textarea { background-color: transparent; }
 
@@ -29,7 +29,6 @@ a {
 	text-decoration: none;
 	font-size: inherit;
 	font-family: inherit;
-	cursor: pointer;
 }
 
 b { font-weight: bold; }
@@ -284,7 +283,7 @@ div#responder > div#content > form#question > #field.options > li {
 div#responder > div#content > form#question > #field.options > li + li { margin-top: 5px; }
 div#responder > div#content > form#question > #field.options > li:hover,
 div#responder > div#content > form#question > #field.options > li:focus { background: #ccc; }
-div#responder > div#content > form#question > #field.options > li.selected { background: #485775; color: white; }
+div#responder > div#content > form#question > #field.options > li.sel { background: #485775; color: white; }
 
 div#responder > div#content > form#question > #field.options > li > input { display: none; }
 
@@ -329,6 +328,7 @@ div#responder > div#content > form#question > div.bottom > div#certeza > input {
 	padding: 12px 15px;
 	font-size: 16px;
 	line-height: 24px;
+	text-align: center;
 	color: #333;
 	background: #e6e6e6;
 }
@@ -370,3 +370,12 @@ div#responder > div#footer > span {
 }
 div#responder > div#footer > span.desc { margin-left: 0; }
 div#responder > div#footer > span.authors { margin-right: 0; }
+
+div#responder > div#footer > span > strong {
+	font-weight: bold;
+	color: #293243;
+}
+
+div#responder > div#footer > span > a { font-weight: bold; }
+div#responder > div#footer > span > a[href]:hover,
+div#responder > div#footer > span > a[href]:focus { text-decoration: none; opacity: 0.7; }

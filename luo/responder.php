@@ -75,11 +75,7 @@
 					<p><?=$pergunta['descricao'];?></p>
 					<?php endif; endif; switch (strtoupper($pergunta['tipo'])) : case 'OPCAO': ?>
 					<ul id="field" class="options">
-						<li tabindex="0"><input type="radio" name="val" value="1" />Claro</li>
-						<li tabindex="0"><input type="radio" name="val" value="2" />Tim</li>
-						<li tabindex="0"><input type="radio" name="val" value="3" />Vivo</li>
-						<li tabindex="0"><input type="radio" name="val" value="4" />Oi</li>
-						<li tabindex="0"><input type="radio" name="val" value="5" />Outra</li>
+						<li tabindex="0"><input type="radio" name="val" value="1" />Opção</li>
 					</ul>
 					<?php break; case 'TEXTO': ?>
 					<div id="field" class="string">
@@ -102,19 +98,67 @@
 			</div>
 			<div id="footer">
 				<span class="desc"><strong>Lúo</strong> - Sistemas Especialistas</span>
-				<span class="authors">Desenvolvido por Evandro M S e Matias G H</span>
+				<span class="authors">Desenvolvido por <a>Evandro M S</a> e <a href="http://www.mghenschel.com.br/" target="_blank">Matias G H</a></span>
 			</div>
 		</div>
 		<script type="text/javascript" charset="utf-8">
-			$next = function(){
-				$.post('func/next-question.php', { system: <?=$system;?> }, function(result){
+			$next = function(skip){
+				var vars = { system: <?=$system;?> },
+					form = $('div#content').children('form#question');
+				
+				if (form.size() > 0){
+					var field = form.children('#field'),
+						regex, val;
+					
+					if (field.hasClass('options')){
+						val = field.find(':checked');
+						if (val.size() == 0){
+							if (skip === undefined || !skip){
+								$box.ask('Nenhuma opção está selecionada.<br/>Você tem certeza de que deseja continuar?', 'Sim', 'Não', function(){ $next(true); });
+								return;
+							}
+						}
+						val = val.val();
+					}
+					else if (field.hasClass('string')){
+						val = field.children('input').val();
+						if (val.length < 1){
+							if (skip === undefined || !skip){
+								$box.ask('O campo de texto está vazio.<br/>Você tem certeza de que deseja continuar?', 'Sim', 'Não', function(){ $next(true); });
+								return;
+							}
+						}
+					}
+					else if (field.hasClass('number')){
+						val = field.children('input').val();
+						if (val.length < 1){
+							if (skip === undefined || !skip){
+								$box.ask('O campo de texto está vazio.<br/>Você tem certeza de que deseja continuar?', 'Sim', 'Não', function(){ $next(true); });
+								return;
+							}
+						}
+						else {
+							try {
+								val = parseInt(val);
+							}
+							catch (err){
+								$box.alert('O valor digitado não é um número.', 'Alterar');
+								return;
+							}
+						}
+					}
+					
+					vars.variable = form.children('input#variable').val();
+					vars.val = val;
+				}
+				
+				$.post('func/next-question.php', vars, function(result){
 					try {
 						var rs = JSON.parse(result);
 						
 						if (rs.error){
 							switch (rs.content){
-								case 'null':
-									// Nada para questionar
+								case 'null': // Nada para questionar
 									$box.alert('Nenhuma pergunta a ser questionada.');
 									break;
 								default:
@@ -161,6 +205,11 @@
 									.append(cont.opcoes[i])
 								);
 							}
+							$initOptions(field);
+							break;
+						case 'TEXTO':
+							field = $('<div>').attr({ id: 'field', class: 'string' });
+							field.append($('<input>').attr({ type: 'text', name: 'val' }));
 							break;
 						default:
 							field = $('<p>').text('Desconhecido.');
@@ -185,17 +234,33 @@
 					
 					content.append(form);
 					
-					
-					// ANIMAÇÃO AQUI
-					
-					
-					act.remove();
-					form.css({ display: 'block' });
+					act.stop().slideUp({
+						duration: 250,
+						easing: 'easeInCubic',
+						complete: function(){
+							$(this).remove();
+							form.stop().slideDown({
+								duration: 250,
+								easing: 'easeOutCubic'
+							});
+						}
+					});
 				}
 				else {
 					form = content.children('form#quetion');
 					act = form;
 				}
+			}
+
+			$initOptions = function(field){
+				field = $(field);
+				field.children('li').on('click keydown', function(e){
+					if ($clicked(e.which)){
+						$(this).parent().children('li').removeClass('sel');
+						$(this).addClass('sel');
+						$(this).children('input').prop('checked', true);
+					}
+				});
 			}
 			
 			$(function(){
@@ -205,7 +270,17 @@
 				
 				$('div#top > span#reset').on('click keydown', function(e){
 					if ($clicked(e.which)){
-						alert('REINICIAR PROGRAMA');
+						$.post('func/reset.php', { system: <?=$system;?> }, function(result){
+							try {
+								var rs = JSON.parse(result);
+								if (!rs.error)
+								{ location.reload(); }
+							}
+							catch (err){
+								console.log(err.message);
+								console.log(result);
+							}
+						});
 					}
 				});
 			});

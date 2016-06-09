@@ -1,15 +1,19 @@
 TO DO
 
------ Matias
+#matias
 
 - Interface (HTML/CSS/JS)
+- Avançar variável
 - Exibir respostas (variáveis objetivos)
 
-
------ Evandro
+#evandro
 
 - IniSystem (base.php): Verificar se sistema existe
+- Aceitar valores "vazios" para variáveis
 
+#quemMesmo?
+
+- Evitar loop (gerar nodos de regras que já estão acima na árvore)
 
 
 IDEIAS

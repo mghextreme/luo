@@ -75,6 +75,11 @@
                 'arvores' => array()
             );
 			
+			$query = "SELECT * FROM sistema WHERE id = '{$sistema}';";
+			$result = $conn->query($query);
+			if($result->num_rows <= 0) { die("Sistema não existe"); }
+				
+			
 			$floresta = array();
 			$query = "SELECT * FROM variavel WHERE sistema = '{$sistema}';";
 			$result = $conn->query($query);

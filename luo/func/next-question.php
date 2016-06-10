@@ -26,26 +26,25 @@
 
 		foreach ($arvores as $item){
 			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
-				$item->raiz->seekFilhos($item->objetivo->id);
-				$item->raiz->inferir();
+				$item->raiz->verificar();
 			}
 		}
 		unset($item);
 		
-		foreach ($arvores as $item){
-			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] !== NULL){
-				$key = array_search(serialize($item), $_SESSION['s'.$sistema]['arvores']);
-				if($key){
-					unset($_SESSION['s'.$sistema]['arvores'][$key]);
-					$item->$resolvido = TRUE;
-					$_SESSION['s'.$sistema]['arvores'][] = serialize($item);
-				}
-			}
-		}
-		unset($item);
+//		foreach ($arvores as $item){
+//			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] !== NULL){
+//				$key = array_search(serialize($item), $_SESSION['s'.$sistema]['arvores']);
+//				if($key){
+//					unset($_SESSION['s'.$sistema]['arvores'][$key]);
+//					$item->$resolvido = TRUE;
+//					$_SESSION['s'.$sistema]['arvores'][] = serialize($item);
+//				}
+//			}
+//		}
+//		unset($item);
 	}
 
 	$result = getNextQuestion($sistema);
-
+//	print_r($result);
 	die(json_encode($result));
 ?>

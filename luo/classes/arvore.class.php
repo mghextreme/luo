@@ -33,7 +33,7 @@
 						if ($this->raiz->filhos[$i]->resolvido){
 							
 							$this->verificar();
-			// VERIFICA SE VARIAVEL OBJETIVO ESTA PRONTO
+							// VERIFICA SE VARIAVEL OBJETIVO ESTA PRONTO
 							
 							// retira o primeiro filho
 							array_shift($this->raiz->filhos);
@@ -54,14 +54,21 @@
 		}
 		
 		public function verificar(){
-			// VERIFICA SE VARIAVEL OBJETIVO ESTA PRONTO
-			if (!$this->condicoes[$i]->IsTrue())
-			{ $condicoesTrue = FALSE; }
-			$this->resolvido = TRUE;
+			global $sistema;
+			if(!isset($_SESSION)){
+                session_start();
+            }
+			if($_SESSION['s'.$sistema]['variaveis'][$objetivo->id]['valor'] !== NULL){
+				$this->resolvido = TRUE;
+			}
 		}
 		
 		public function expandirRaiz(){
 			global $sistema, $conn;
+			
+			if(!isset($_SESSION)){
+                session_start();
+            }
 			
 			$this->raiz = new Nodo(0);
 			$this->raiz->sistema = $sistema;

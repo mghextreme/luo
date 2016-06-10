@@ -42,7 +42,7 @@
 			}
 			unset($aDescobrir);
 			
-			return $arvore;
+//			return $arvore;
 
 			$variavel = NULL;
 			if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL)
@@ -57,7 +57,7 @@
 					'opcoes' => $opcoes
 				);
 			} elseif ($arvore == NULL){
-				$opcoes = getOpcoes($variavel);
+//				$opcoes = getOpcoes($variavel);
 				$result['error'] = FALSE;
 				$result['content'] = array(
 					'resolvido' => TRUE
@@ -69,7 +69,6 @@
 		} catch(Exception $e){
 			$result['content'] = $e->getMessage();
 		}
-		
 		return $result;
 	}
 ?>

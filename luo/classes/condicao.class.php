@@ -30,8 +30,8 @@
 		
 		// bool - implementação do método descrito em Condicao
 		public function IsTrue(){
-			if(isset($_SESSION[$this->sistema]['variaveis'][$this->variavel->id]['valor'])){
-				$variavelValor = $_SESSION[$this->sistema]['variaveis'][$this->variavel->id]['valor'];
+			if(isset($_SESSION['s'.$this->sistema]['variaveis'][$this->variavel->id]['valor'])){
+				$variavelValor = $_SESSION['s'.$this->sistema]['variaveis'][$this->variavel->id]['valor'];
 				switch ($this->op){
 					case '=':
 						return $variavelValor == $this->valor;

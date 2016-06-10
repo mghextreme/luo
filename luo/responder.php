@@ -155,7 +155,7 @@
 				$.post('func/next-question.php', vars, function(result){
 					try {
 						var rs = JSON.parse(result);
-						
+						console.log(rs);
 						if (rs.error){
 							switch (rs.content){
 								case 'null': // Nada para questionar

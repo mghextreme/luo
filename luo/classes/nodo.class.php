@@ -47,19 +47,18 @@
 						} else {
 							$result = $this->filhos[$i]->proximaPergunta();
 							if (!empty($result))
-							{ return $reult; }
+							{ return $result; }
 						}
 					}
 				}
 				else {
 					// sem filhos
-					
 					$tempVar;
 					$condicoesTrue = TRUE;
 					// para cada condicao
 					for ($i = 0; $i < count($this->condicoes); $i++){
 						// se a variavel ainda não teve valor definido
-						if ($_SESSION['s'.$this->sistema]['variaveis'][$this->condicoes[$i]->variavel->id]['variavel'] === NULL){
+						if ($_SESSION['s'.$this->sistema]['variaveis'][$this->condicoes[$i]->variavel->id]['valor'] === NULL){
 							$tempVar = unserialize($_SESSION['s'.$this->sistema]['variaveis'][$this->condicoes[$i]->variavel->id]['variavel']);
 							if ($tempVar->questionavel)
 							{ return $tempVar; }

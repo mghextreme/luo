@@ -1,5 +1,9 @@
 TO DO
 
+#top priority
+
+- resolver o bug maluco de 'iniciar->erro->F5->iniciar->funcionar(+/-)'
+
 #matias
 
 - Interface (HTML/CSS/JS)

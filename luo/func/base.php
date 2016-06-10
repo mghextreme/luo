@@ -90,8 +90,7 @@
 					
 					if($row['objetivo'] == 1){
 						$arvore = new Arvore($varivavel);
-						$arvore->raiz = new Nodo(0);
-						$arvore->raiz->sistema = $sistema;
+						$arvore->expandirRaiz();
 						$_SESSION['s'.$sistema]['arvores'][] = serialize($arvore);
 					}
 					

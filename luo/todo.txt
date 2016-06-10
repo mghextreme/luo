@@ -14,6 +14,7 @@ TO DO
 #quemMesmo?
 
 - Evitar loop (gerar nodos de regras que já estão acima na árvore)
+- Não expandir já resolvidas (nodo, arvore)
 
 
 IDEIAS

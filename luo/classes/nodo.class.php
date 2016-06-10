@@ -40,6 +40,7 @@
 					for ($i = 0; $i == 0; $i++){
 						// verifica se o filho foi resolvido
 						if ($this->filhos[$i]->resolvido){
+							$this->verificar();
 							// retira o primeiro filho
 							array_shift($this->filhos);
 							$i--;
@@ -89,6 +90,7 @@
 			global $conn;
 			
 			$query = "SELECT regra FROM consequencia WHERE variavel IN (SELECT DISTINCT(variavel) FROM condicao WHERE regra = {$this->id})";
+			//$query = "SELECT regra FROM consequencia WHERE variavel IN (SELECT DISTINCT(variavel) FROM condicao WHERE regra = {$this->id}) && NOT IN (-----CONDICOES JA ATENDIDADS-----)";
 			$resultRegra = $conn->query($query);
 			
 			if ($resultRegra->num_rows > 0) {

@@ -35,10 +35,15 @@
 			$arvore = NULL;
 			foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
 				$aDescobrir = unserialize($aDescobrir);
+				// ate resolvido mudar, to mudando isso
 				if (!$aDescobrir->resolvido){
 					$arvore = $aDescobrir;
 					break;
 				}
+//				if ($_SESSION['s'.$sistema]['variaveis'][$aDescobrir->objetivo->id]['valor'] === NULL){
+//					$arvore = $aDescobrir;
+//					break;
+//				}
 			}
 			unset($aDescobrir);
 			
@@ -64,7 +69,7 @@
 				);
 			} else {
 				// não possui uma variavel para questionar
-				$result['content'] = 'null';
+				$result['content'] = print_r($arvore);
 			}
 		} catch(Exception $e){
 			$result['content'] = $e->getMessage();

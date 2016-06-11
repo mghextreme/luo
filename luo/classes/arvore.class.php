@@ -58,7 +58,7 @@
 			if(!isset($_SESSION)){
                 session_start();
             }
-			if($_SESSION['s'.$sistema]['variaveis'][$objetivo->id]['valor'] !== NULL){
+			if($_SESSION['s'.$sistema]['variaveis'][$this->objetivo->id]['valor'] !== NULL){
 				$this->resolvido = TRUE;
 			}
 		}

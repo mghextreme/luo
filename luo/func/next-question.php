@@ -27,24 +27,28 @@
 		foreach ($arvores as $item){
 			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
 				$item->raiz->verificar();
+				$item->verificar();
 			}
 		}
 		unset($item);
 		
-//		foreach ($arvores as $item){
-//			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] !== NULL){
-//				$key = array_search(serialize($item), $_SESSION['s'.$sistema]['arvores']);
-//				if($key){
-//					unset($_SESSION['s'.$sistema]['arvores'][$key]);
-//					$item->$resolvido = TRUE;
-//					$_SESSION['s'.$sistema]['arvores'][] = serialize($item);
-//				}
-//			}
-//		}
-//		unset($item);
+		foreach ($arvores as $item){
+				$key = array_search(serialize($item), $_SESSION['s'.$sistema]['arvores']);
+				if($key){
+					unset($_SESSION['s'.$sistema]['arvores'][$key]);
+					$item->$resolvido = TRUE;
+					$_SESSION['s'.$sistema]['arvores'][] = serialize($item);
+				}
+		}
+		unset($item);
 	}
 
 	$result = getNextQuestion($sistema);
 //	print_r($result);
+//	if (isset($_POST['variable']) && isset($_POST['val'])){
+//		$result['variavel'] = $_POST['variable'];
+//		$result['val'] = $_POST['val'];
+//	}
+	 
 	die(json_encode($result));
 ?>

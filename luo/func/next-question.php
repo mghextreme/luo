@@ -7,48 +7,56 @@
 
 	// pegando o sistema
 	$sistema = $_POST['system'];
-	
+	$ret = "";
+	global $conn;
+
 	if (isset($_POST['variable']) && isset($_POST['val'])){
 		$variable = $_POST['variable'];
 		$val = $_POST['val'];
 		
-		$_SESSION['s'.$sistema]['variaveis'][$variable]['valor'] = $val;
+		$query = "SELECT valor FROM opcao WHERE id = {$val};";
+		$result = $conn->query($query);
+		if ($result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+			$_SESSION['s'.$sistema]['variaveis'][$variable]['valor'] = $row['valor'];
+		} else {
+			die("Não existe esta opção");
+		}
+		
+		print_r($_SESSION['s'.$sistema]['variaveis']);
 		
 		$arvores = array();
 
 		foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
 			$arvore = unserialize($aDescobrir);
-			if(!$arvore->resolvido){
+			if($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL){
 				$arvores[] = $arvore;
 			}
 		}
 		unset($aDescobrir);
 
+		
+		
 		foreach ($arvores as $item){
 			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
-				$item->raiz->verificar();
+				$ret = $item->raiz->verificar();
 				$item->verificar();
 			}
 		}
 		unset($item);
 		
 		foreach ($arvores as $item){
-				$key = array_search(serialize($item), $_SESSION['s'.$sistema]['arvores']);
-				if($key){
-					unset($_SESSION['s'.$sistema]['arvores'][$key]);
-					$item->$resolvido = TRUE;
-					$_SESSION['s'.$sistema]['arvores'][] = serialize($item);
-				}
+			$_SESSION['s'.$sistema]['arvores'][$item->objetivo->id] = serialize($item);
 		}
 		unset($item);
 	}
 
 	$result = getNextQuestion($sistema);
 //	print_r($result);
-//	if (isset($_POST['variable']) && isset($_POST['val'])){
-//		$result['variavel'] = $_POST['variable'];
-//		$result['val'] = $_POST['val'];
-//	}
-	 
+	if (isset($_POST['variable']) && isset($_POST['val'])){
+		$result['variavel'] = $_POST['variable'];
+		$result['val'] = $_POST['val'];
+		$result['ret'] = $ret;
+	}
 	die(json_encode($result));
 ?>

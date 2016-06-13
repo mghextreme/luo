@@ -92,12 +92,6 @@
 					$varivavel->pergunta = $row['pergunta'];
 					$varivavel->descricao = $row['descricao'];
 					
-//					if($row['objetivo'] == 1){
-//						$arvore = new Arvore($varivavel);
-//						$arvore->expandirRaiz();
-//						$_SESSION['s'.$sistema]['arvores'][] = serialize($arvore);
-//					}
-					
 					// criando um array pra cada variavel
 					$_SESSION['s'.$sistema]['variaveis'][$varivavel->id] = array(
 						'variavel' => serialize($varivavel),
@@ -106,23 +100,14 @@
 				}
 			}
 			
-			$query = "SELECT * FROM variavel WHERE sistema = '{$sistema}' AND objetivo = 1;";
+			$query = "SELECT id FROM variavel WHERE sistema = '{$sistema}' AND objetivo = 1;";
 			$result = $conn->query($query);
 			if($result->num_rows > 0) {
 				// atribui as linhas retornadas
-				while($row = $result->fetch_assoc()) {
-					$varivavel = new Variavel($row['id']);
-					$varivavel->nome = $row['nome'];
-					$varivavel->tipo = $row['tipo'];
-					$varivavel->questionavel = $row['questionavel'];
-					$varivavel->pergunta = $row['pergunta'];
-					$varivavel->descricao = $row['descricao'];
-					
-					if($row['objetivo'] == 1){
-						$arvore = new Arvore($varivavel);
-						$arvore->expandirRaiz();
-						$_SESSION['s'.$sistema]['arvores'][] = serialize($arvore);
-					}
+				while($row = $result->fetch_assoc()) {					
+					$arvore = new Arvore(unserialize($_SESSION['s'.$sistema]['variaveis'][$row['id']]['variavel']));
+					$arvore->expandirRaiz();
+					$_SESSION['s'.$sistema]['arvores'][$arvore->objetivo->id] = serialize($arvore);
 				}
 			}
         }

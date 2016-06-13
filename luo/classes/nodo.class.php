@@ -142,23 +142,24 @@
 		// void - verifica se as condições já não foram concluídas
 		public function verificar(){
 			$any = FALSE;
+			$tmp = " ";
 			if (count($this->filhos) > 0){
 				do {
-					$this->filhos[0]->verificar();
+					$tmp = $this->filhos[0]->verificar() . " " . $tmp;
 					if ($this->filhos[0]->resolvido){
 						array_shift($this->filhos);
 						$any = TRUE;
-					}
-					else break;
+					} else { break; }
 				} while (!$any);
-			}
-			else $any = TRUE;
+			} else { $any = TRUE; }
 			
 			// só tenta resolver se não tem filhos ou se o primeiro filho foi resolvido
 			if ($any){
 				$condicoesCorretas = TRUE;
+//				$string = "";
 				if (count($this->condicoes) > 0){
 					foreach ($this->condicoes as $condicao){
+//						$string .= $condicao->variavel->nome . " " . $condicao->op . " " . $condicao->valor . "=" . $condicao->isTrue() . " " ."\n";
 						if (!$condicao->isTrue()){
 							$condicoesCorretas = FALSE;
 							break;
@@ -170,8 +171,12 @@
 				if ($condicoesCorretas){
 					$this->resolvido = TRUE;
 					$this->aplicarConsequencias();
+					return "aplicou teoricamente";
 				}
+				return "nain";
 			}
+			
+			return $tmp;
 		}
 		
 		// void - aplica as consequencias
@@ -181,7 +186,7 @@
 
 			if (count($this->consequencias) > 0){
 				foreach ($this->consequencias as $consequencia){
-					$_SESSION['s'.$sistema]['variaveis'][$consequencia->id]['valor'] = $consequencia->valor;
+					$_SESSION['s'.$this->sistema]['variaveis'][$consequencia->id]['valor'] = $consequencia->valor;
 				}
 				unset($consequencia);
 			}

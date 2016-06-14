@@ -14,14 +14,7 @@
 		$variable = $_POST['variable'];
 		$val = $_POST['val'];
 		
-		$query = "SELECT valor FROM opcao WHERE id = {$val};";
-		$result = $conn->query($query);
-		if ($result->num_rows > 0) {
-			$row = $result->fetch_assoc();
-			$_SESSION['s'.$sistema]['variaveis'][$variable]['valor'] = $row['valor'];
-		} else {
-			die("Não existe esta opção");
-		}
+		$_SESSION['s'.$sistema]['variaveis'][$variable]['valor'] = $val;
 		
 		print_r($_SESSION['s'.$sistema]['variaveis']);
 		

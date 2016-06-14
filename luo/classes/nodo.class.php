@@ -173,7 +173,7 @@
 					$this->aplicarConsequencias();
 					return "aplicou teoricamente";
 				}
-				return "nain";
+				return "nein";
 			}
 			
 			return $tmp;

@@ -69,7 +69,8 @@
 				);
 			} else {
 				// não possui uma variavel para questionar
-				$result['content'] = print_r($_SESSION['s'.$sistema]['variaveis']);
+//				$result['content'] = print_r($_SESSION['s'.$sistema]['variaveis']);
+				$result['content'] = print_r($arvore);
 			}
 		} catch(Exception $e){
 			$result['content'] = $e->getMessage();

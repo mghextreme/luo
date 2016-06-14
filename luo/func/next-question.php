@@ -16,19 +16,15 @@
 		
 		$_SESSION['s'.$sistema]['variaveis'][$variable]['valor'] = $val;
 		
-		print_r($_SESSION['s'.$sistema]['variaveis']);
-		
 		$arvores = array();
 
 		foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
 			$arvore = unserialize($aDescobrir);
-			if($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL){
-				$arvores[] = $arvore;
-			}
+			//print_r($arvore);
+			if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL)
+			{ $arvores[] = $arvore; }
 		}
 		unset($aDescobrir);
-
-		
 		
 		foreach ($arvores as $item){
 			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
@@ -42,9 +38,13 @@
 			$_SESSION['s'.$sistema]['arvores'][$item->objetivo->id] = serialize($item);
 		}
 		unset($item);
+		
+		print_r($_SESSION['s'.$sistema]['variaveis']);
 	}
 
 	$result = getNextQuestion($sistema);
+	
+//	print_r(unserialize($_SESSION['s'.$sistema]['arvores'][1]));
 //	print_r($result);
 	if (isset($_POST['variable']) && isset($_POST['val'])){
 		$result['variavel'] = $_POST['variable'];

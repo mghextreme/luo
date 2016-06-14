@@ -23,7 +23,7 @@
 		}
 		
 		public function proximaPergunta(){
-			global $sistema;
+			global $sistema, $_SESSION;
 			
 			if (!$this->resolvido){
 				if (count($this->raiz->filhos) > 0){
@@ -39,9 +39,9 @@
 							array_shift($this->raiz->filhos);
 							$i--;
 						} else {
-							$result = $this->raiz->filhos[$i]->proximaPergunta();
+							$result = $this->raiz->filhos[$i]->proximaPergunta($this->objetivo->id);
 							if (!empty($result))
-							{ return $reult; }
+							{ return $result; }
 						}
 					}
 				}
@@ -49,6 +49,8 @@
 					$this->verificar();
 				}
 			}
+			
+			$_SESSION['s'.$sistema]['arvores'][$this->objetivo->id] = serialize($this);
 			
 			return NULL;
 		}

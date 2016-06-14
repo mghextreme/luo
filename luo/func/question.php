@@ -36,22 +36,23 @@
 			foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
 				$aDescobrir = unserialize($aDescobrir);
 				// ate resolvido mudar, to mudando isso
-//				if (!$aDescobrir->resolvido){
-//					$arvore = $aDescobrir;
-//					break;
-//				}
-				if ($_SESSION['s'.$sistema]['variaveis'][$aDescobrir->objetivo->id]['valor'] === NULL){
+				if (!$aDescobrir->resolvido){
 					$arvore = $aDescobrir;
 					break;
 				}
+//				if ($_SESSION['s'.$sistema]['variaveis'][$aDescobrir->objetivo->id]['valor'] === NULL){
+//					$arvore = $aDescobrir;
+//					break;
+//				}
 			}
 			unset($aDescobrir);
 			
 //			return $arvore;
 
 			$variavel = NULL;
-			if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL)
-			{ $variavel = $arvore->raiz->proximaPergunta(); }
+			if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL){
+				$variavel = $arvore->proximaPergunta();
+			}
 			
 			if ($variavel !== NULL){
 				$opcoes = getOpcoes($variavel);
@@ -70,7 +71,8 @@
 			} else {
 				// não possui uma variavel para questionar
 //				$result['content'] = print_r($_SESSION['s'.$sistema]['variaveis']);
-				$result['content'] = print_r($arvore);
+//				$result['content'] = print_r($arvore);
+				$result['content'] = NULL;
 			}
 		} catch(Exception $e){
 			$result['content'] = $e->getMessage();

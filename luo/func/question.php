@@ -50,8 +50,12 @@
 //			return $arvore;
 
 			$variavel = NULL;
-			if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL){
-				$variavel = $arvore->proximaPergunta();
+			
+			if($arvore !== NULL){
+				if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL){
+					$variavel = $arvore->proximaPergunta();
+				}
+				$_SESSION['s'.$sistema]['arvores'][$arvore->objetivo->id] = serialize($arvore);
 			}
 			
 			if ($variavel !== NULL){
@@ -62,7 +66,7 @@
 					'variavel' => $variavel,
 					'opcoes' => $opcoes
 				);
-			} elseif ($arvore == NULL){
+			} elseif ($arvore === NULL){
 //				$opcoes = getOpcoes($variavel);
 				$result['error'] = FALSE;
 				$result['content'] = array(

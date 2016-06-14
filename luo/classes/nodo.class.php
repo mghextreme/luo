@@ -149,7 +149,7 @@
 			$any;
 			$tmp = " ";
 			do {
-				print_r(unserialize($_SESSION['s1']['arvores'][1]));
+//				print_r(unserialize($_SESSION['s1']['arvores'][1]));
 				
 				$any = FALSE;
 				if (count($this->filhos) > 0){
@@ -167,10 +167,10 @@
 				// só tenta resolver se não tem filhos ou se o primeiro filho foi resolvido
 				if ($any){
 					$condicoesCorretas = TRUE;
-					$string = "";
+//					$string = "";
 					if (count($this->condicoes) > 0){
 						foreach ($this->condicoes as $condicao){
-							$string .= $condicao->variavel->nome . " " . $condicao->op . " " . $condicao->valor . "=" . $condicao->isTrue() . " " ."\n";
+//							$string .= $condicao->variavel->nome . " " . $condicao->op . " " . $condicao->valor . "=" . $condicao->isTrue() . " " ."\n";
 							if (!$condicao->isTrue()){
 								$condicoesCorretas = FALSE;
 								break;
@@ -182,13 +182,13 @@
 					if ($condicoesCorretas){
 						$this->resolvido = TRUE;
 						$this->aplicarConsequencias();
-						return "aplicou teoricamente";
+//						return "aplicou teoricamente";
 					}
-					return "nein: {$string}";
+//					return "nein: {$string}";
 				}
 			} while (!$this->resolvido && $any);
 			
-			return $tmp;
+//			return $tmp;
 		}
 		
 		// void - aplica as consequencias

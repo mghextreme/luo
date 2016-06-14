@@ -39,7 +39,7 @@
 		}
 		unset($item);
 		
-		print_r($_SESSION['s'.$sistema]['variaveis']);
+//		print_r($_SESSION['s'.$sistema]['variaveis']);
 	}
 
 	$result = getNextQuestion($sistema);

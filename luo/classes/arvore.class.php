@@ -50,8 +50,6 @@
 				}
 			}
 			
-			$_SESSION['s'.$sistema]['arvores'][$this->objetivo->id] = serialize($this);
-			
 			return NULL;
 		}
 		

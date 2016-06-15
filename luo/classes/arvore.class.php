@@ -28,26 +28,25 @@
 			if (!$this->resolvido){
 				if (count($this->raiz->filhos) > 0){
 					// para cada filho
-					for ($i = 0; $i == 0; $i++){
+					for ($i = 0; !$this->resolvido && $i < count($this->raiz->filhos); $i++){
 						// verifica se o filho foi resolvido
+						$this->raiz->filhos[$i]->verificar();
 						if ($this->raiz->filhos[$i]->resolvido){
-							
+							// retira o filho
+							array_splice($this->raiz->filhos, $i, 1);
 							$this->verificar();
-							// VERIFICA SE VARIAVEL OBJETIVO ESTA PRONTO
-							
-							// retira o primeiro filho
-							array_shift($this->raiz->filhos);
+							if ($this->resolvido)
+							{ return NULL; }
 							$i--;
-						} else {
+						}
+						else {
 							$result = $this->raiz->filhos[$i]->proximaPergunta();
 							if (!empty($result))
 							{ return $result; }
 						}
 					}
 				}
-				else {
-					$this->verificar();
-				}
+				$this->verificar();
 			}
 			
 			return NULL;
@@ -55,12 +54,11 @@
 		
 		public function verificar(){
 			global $sistema;
-			if(!isset($_SESSION)){
-                session_start();
-            }
-			if($_SESSION['s'.$sistema]['variaveis'][$this->objetivo->id]['valor'] !== NULL){
-				$this->resolvido = TRUE;
-			}
+			if (!isset($_SESSION))
+			{ session_start(); }
+			
+			if ($_SESSION['s'.$sistema]['variaveis'][$this->objetivo->id]['valor'] !== NULL)
+			{ $this->resolvido = TRUE; }
 		}
 		
 		public function expandirRaiz(){

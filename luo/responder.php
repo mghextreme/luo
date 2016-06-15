@@ -292,6 +292,11 @@
 							footer.before(field);
 							
 							footer.find('> div#certeza > input').val('1.0');
+							
+							form.stop().slideDown({
+								duration: 250,
+								easing: 'easeOutCubic'
+							});
 						}
 					});
 				}

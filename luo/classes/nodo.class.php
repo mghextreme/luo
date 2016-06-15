@@ -39,14 +39,19 @@
 				
 				if (count($this->filhos) > 0){
 					// para cada filho
-					for ($i = 0; $i == 0 && count($this->filhos) > 0; $i++){
+					for ($i = 0; $i < count($this->filhos); $i++){
 						// verifica se o filho foi resolvido
 						if ($this->filhos[$i]->resolvido){
-							$this->verificar();
 							// retira o primeiro filho
-							array_shift($this->filhos);
+							array_splice($this->filhos, $i, 1);
+							
+							$this->verificar();
+							if ($this->resolvido)
+							{ return NULL; }
+							
 							$i--;
-						} else {
+						}
+						else {
 							$result = $this->filhos[$i]->proximaPergunta();
 							if (!empty($result))
 							{ return $result; }
@@ -55,9 +60,12 @@
 				}
 				
 				if (count($this->filhos) == 0) {
+//					$this->verificar();
+					
 					// sem filhos
 					$tempVar;
 					$condicoesTrue = TRUE;
+					$condicoesConcluidas = TRUE;
 					// para cada condicao
 					for ($i = 0; $i < count($this->condicoes); $i++){
 						// se a variavel ainda não teve valor definido
@@ -66,15 +74,20 @@
 							if ($tempVar->questionavel)
 							{ return $tempVar; }
 						} else {
-							if (!$this->condicoes[$i]->IsTrue())
-							{ $condicoesTrue = FALSE; }
+							$val = $this->condicoes[$i]->IsTrue();
+							if (empty($val)){
+								$condicoesTrue = FALSE;
+								if ($val === NULL)
+								{ $condicoesConcluidas = FALSE; }
+							}
 						}
 					}
 					
 					// todas as condicoes foram atendidas
-					if ($condicoesTrue){
+					if ($condicoesConcluidas){						
 						$this->resolvido = TRUE;
-						$this->aplicarConsequencias();
+						if ($condicoesTrue)
+						{ $this->aplicarConsequencias(); }
 					}
 					
 					return NULL;
@@ -149,37 +162,41 @@
 			
 			$any;
 			$done = FALSE;
+			$i = 0;
 			do {
 				$any = FALSE;
-				if (count($this->filhos) > 0){
-					do {
-						$this->filhos[0]->verificar();
-						if ($this->filhos[0]->resolvido){
-							array_shift($this->filhos);
-							$any = TRUE;
-						} else break;
-					} while (!$any);
+				if ($i < count($this->filhos)){
+					$this->filhos[$i]->verificar();
+					if ($this->filhos[$i]->resolvido){
+						array_splice($this->filhos, $i, 1);
+						$any = TRUE;
+					}
+					else $i++;
 				} else {
 					$any = TRUE;
 					$done = TRUE;
 				}
 				
-				// só tenta resolver se não tem filhos ou se o primeiro filho foi resolvido
+				// só tenta resolver se não tem filhos ou se um filho foi resolvido
 				if ($any){
 					$condicoesCorretas = TRUE;
+					$condicoesConcluidas = TRUE;
 					if (count($this->condicoes) > 0){
 						foreach ($this->condicoes as $condicao){
-							if (!$condicao->isTrue()){
+							$val = $condicao->isTrue();
+							if (empty($val)){
 								$condicoesCorretas = FALSE;
-								break;
+								if ($val === NULL)
+								{ $condicoesConcluidas = FALSE; }
 							}
 						}
 						unset($condicao);
 					}
 					
-					if ($condicoesCorretas){
+					if ($condicoesConcluidas){						
 						$this->resolvido = TRUE;
-						$this->aplicarConsequencias();
+						if ($condicoesCorretas)
+						{ $this->aplicarConsequencias(); }
 					}
 				}
 			} while (!$this->resolvido && $any && !$done);

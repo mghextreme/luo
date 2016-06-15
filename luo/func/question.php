@@ -50,21 +50,19 @@
 				$_SESSION['s'.$sistema]['arvores'][$arvore->objetivo->id] = serialize($arvore);
 			}
 			
-			//print_r($variavel);
-			
-			if ($variavel !== NULL){
+			if ($arvore === NULL || $arvore->resolvido){
+				$result['error'] = FALSE;
+				$result['content'] = array(
+					'resolvido' => TRUE,
+					'respostas' => getRespostas($sistema)
+				);
+			} elseif ($variavel !== NULL){
 				$opcoes = getOpcoes($variavel);
 				$result['error'] = FALSE;
 				$result['content'] = array(
 					'resolvido' => FALSE,
 					'variavel' => $variavel,
 					'opcoes' => $opcoes
-				);
-			} elseif ($arvore === NULL){
-				$result['error'] = FALSE;
-				$result['content'] = array(
-					'resolvido' => TRUE,
-					'respostas' => getRespostas($sistema)
 				);
 			} else {
 				$result['content'] = NULL;

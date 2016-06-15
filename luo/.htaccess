@@ -9,8 +9,10 @@ ErrorDocument 404 /404.php
 RewriteRule ^404/?$ 404.php
 
 RewriteRule ^/?$ index.php
-RewriteRule ^(home|main|dashboard|start|root)/?$ index.php
-
 RewriteRule ^(log|sign)-?in/?$ login.php
+RewriteRule ^(home|main|dashboard|start|root|menu)/?$ index.php
+RewriteRule ^(novo|criar)/?$ novo.php
 
-RewriteRule ^responder/([0-9]+)/(([^/]+)/?)?$ responder.php?id=$1
+RewriteRule ^sistema/([0-9]+)(/[^/]+)?/?$ sistema.php?id=$1
+
+RewriteRule ^responder/([0-9]+)(/[^/]+)?/?$ responder.php?id=$1

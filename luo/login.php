@@ -18,7 +18,7 @@
                 form.children('input#submit').attr({ disabled : 'disabled' });
                 form.children('div#feedback').stop().slideUp(300);
                 
-                var regex = /^([a-zA-Z0-9._-]+)\@([a-zA-Z0-9._-]+)\.([a-zA-Z]){2,5}$/;
+                var regex = /^([a-zA-Z0-9._-]+){6,20}$/;
                 if (!regex.test(user.val())) {
                     user.parent().addClass('fail');
                     error = true;
@@ -56,7 +56,7 @@
 			<h2>Lúo</h2>
 			<form id="formSignIn" method="post" name="formSignIn" action="javascript:$signIn()" class="on">
 				<div class="field" id="username">
-					<label for="username">Email</label>
+					<label for="username">Login</label>
 					<input type="text" name="username" />
 				</div>
 				<div class="field" id="password">

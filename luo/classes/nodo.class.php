@@ -39,7 +39,7 @@
 				
 				if (count($this->filhos) > 0){
 					// para cada filho
-					for ($i = 0; $i == 0; $i++){
+					for ($i = 0; $i == 0 && count($this->filhos) > 0; $i++){
 						// verifica se o filho foi resolvido
 						if ($this->filhos[$i]->resolvido){
 							$this->verificar();
@@ -53,7 +53,8 @@
 						}
 					}
 				}
-				else {
+				
+				if (count($this->filhos) == 0) {
 					// sem filhos
 					$tempVar;
 					$condicoesTrue = TRUE;
@@ -147,30 +148,25 @@
 			global $_SESSION;
 			
 			$any;
-			$tmp = " ";
 			do {
-//				print_r(unserialize($_SESSION['s1']['arvores'][1]));
-				
 				$any = FALSE;
 				if (count($this->filhos) > 0){
 					do {
-						$tmp = $this->filhos[0]->verificar() . " " . $tmp;
+						$this->filhos[0]->verificar();
 						if ($this->filhos[0]->resolvido){
 							array_shift($this->filhos);
 							$any = TRUE;
-						} else { break; }
+						} else break;
 					} while (!$any);
 				} else {
 					$any = TRUE;
 				}
-
+				
 				// só tenta resolver se não tem filhos ou se o primeiro filho foi resolvido
 				if ($any){
 					$condicoesCorretas = TRUE;
-//					$string = "";
 					if (count($this->condicoes) > 0){
 						foreach ($this->condicoes as $condicao){
-//							$string .= $condicao->variavel->nome . " " . $condicao->op . " " . $condicao->valor . "=" . $condicao->isTrue() . " " ."\n";
 							if (!$condicao->isTrue()){
 								$condicoesCorretas = FALSE;
 								break;
@@ -178,17 +174,13 @@
 						}
 						unset($condicao);
 					}
-
+					
 					if ($condicoesCorretas){
 						$this->resolvido = TRUE;
 						$this->aplicarConsequencias();
-//						return "aplicou teoricamente";
 					}
-//					return "nein: {$string}";
 				}
-			} while (!$this->resolvido && $any);
-			
-//			return $tmp;
+			} while (!$this->resolvido && $any && count($this->filhos) > 0);
 		}
 		
 		// void - aplica as consequencias

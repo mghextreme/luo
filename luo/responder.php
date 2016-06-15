@@ -22,7 +22,7 @@
 		);
 	}
 	
-	$pergunta = NULL;
+	$content = NULL;
 	$solved = FALSE;
 	if (isset($_SESSION['s'.$system])){
 		$solved = TRUE;
@@ -50,7 +50,7 @@
 				<span id="reset" tabindex="0">Reiniciar</span>
 			</div>
 			<div id="content">
-				<?php if (empty($pergunta)) : ?>
+				<?php if (empty($content)) : ?>
 				<!-- Tela de Intro -->
 				<div id="intro">
 					<h2>Bem vindo</h2>
@@ -96,11 +96,8 @@
 				</form>
 				<?php endif; ?>
 			</div>
-			<div id="footer">
-				<span class="desc"><strong>Lúo</strong> - Sistemas Especialistas</span>
-				<span class="authors">Desenvolvido por <a>Evandro M S</a> e <a href="http://www.mghenschel.com.br/" target="_blank">Matias G H</a></span>
-			</div>
 		</div>
+		<?php include('footer.php'); ?>
 		<script type="text/javascript" charset="utf-8">
 			$next = function(skip){
 				var vars = { system: <?=$system;?> },
@@ -155,7 +152,6 @@
 				$.post('func/next-question.php', vars, function(result){
 					try {
 						var rs = JSON.parse(result);
-						console.log(rs);
 						if (rs.error){
 							switch (rs.content){
 								case 'null': // Nada para questionar
@@ -173,7 +169,7 @@
 							return;
 						}
 						
-						alert('Resolvido!');
+						$setAnswers(rs.content.respostas);
 					}
 					catch (err){
 						console.log(err.message);
@@ -183,11 +179,12 @@
 			}
 
 			$setQuestion = function(cont){
-				var content = $('div#content'),
-					act, form;
+				var content = $('div#content');
 				
 				if (content.children('form#question').size() == 0){
-					var act = content.children('div#intro');
+					var act = content.children('div#intro'),
+						form;
+					
 					form = $('<form>').attr({ id: 'question', name: 'question', method: 'post', action: 'javascript:$next()' }).css({ display: 'none' });
 					form.append($('<input>').attr({ id: 'variable', name: 'variable', type: 'hidden' }).val(cont.variavel.id));
 					form.append($('<h2>').text(cont.variavel.pergunta != null ? cont.variavel.pergunta : 'Qual o valor de ' + cont.variavel.nome + '?'));
@@ -247,11 +244,110 @@
 					});
 				}
 				else {
-					form = content.children('form#quetion');
-					act = form;
+					var form = content.children('form#question');
+					form.stop().slideUp({
+						duration: 250,
+						easing: 'easeInCubic',
+						complete: function(){
+							var input = form.children('input#variable'),
+								h2 = form.children('h2'),
+								p = form.children('p'),
+								field = form.children('#field'),
+								footer = form.children('div.bottom');
+							
+							input.val(cont.id);
+							h2.text(cont.variavel.pergunta != null ? cont.variavel.pergunta : 'Qual o valor de ' + cont.variavel.nome + '?');
+							
+							if (cont.variavel.descricao != null){
+								if (p.size() == 0){
+									p = $('<p>');
+									h2.after(p);
+								}
+								p.text(cont.variavel.descricao);
+							} else if (p.size() > 0) {
+								p.remove();
+							}
+							
+							field.remove();
+							switch (cont.variavel.tipo){
+								case 'OPCAO':
+									field = $('<ul>').attr({ id: 'field', class: 'options' });
+									for (var i in cont.opcoes){
+										field.append(
+											$('<li>').attr({ tabindex: 0 })
+											.append($('<input>').attr({ name: 'val', type: 'radio', value: i }))
+											.append(cont.opcoes[i])
+										);
+									}
+									$initOptions(field);
+									break;
+								case 'TEXTO':
+									field = $('<div>').attr({ id: 'field', class: 'string' });
+									field.append($('<input>').attr({ type: 'text', name: 'val' }));
+									break;
+								default:
+									field = $('<p>').text('Desconhecido.');
+									break;
+							}
+							footer.before(field);
+							
+							footer.find('> div#certeza > input').val('1.0');
+						}
+					});
 				}
 			}
-
+			
+			$setAnswers = function(cont){
+				var content = $('div#content'),
+					form = content.children('form#question'),
+					resp;
+				
+				resp = $('<div>').attr({ id: 'final' }).css({ display: 'none' });
+				
+				resp.append($('<h2>').text('Solução atingida'));
+				
+				var tbody = $('<tbody>');
+				
+				resp.append(
+					$('<table>').append(
+						$('<thead>').append(
+							$('<tr>')
+							.append($('<th>').attr({ id: 'var' }).text('Variável'))
+							.append($('<th>').attr({ id: 'val' }).text('Valor'))
+							.append($('<th>').attr({ id: 'cnf' }).text('Certeza'))
+						)
+					)
+					.append(tbody)
+				);
+				
+				for (var i = 0; i < cont.length; i++){
+					tbody.append(
+						$('<tr>')
+						.append($('<td>').html(cont[i].variavel))
+						.append($('<td>').html(cont[i].valor))
+						.append($('<td>').html(cont[i].certeza))
+					);
+				}
+				
+				resp.append($('<p>').text('Conclusão com sucesso!'));
+				
+				resp.append($('<button>').attr({ id: 'restart', onclick: '$reset()' }).text('Reiniciar'));
+				
+				content.append(resp);
+				
+				form.stop().slideUp({
+					duration: 250,
+					easing: 'easeInCubic',
+					complete: function(){
+						$(this).remove();
+						resp.stop().slideDown({
+							duration: 250,
+							easing: 'easeOutCubic'
+						});
+					}
+				});
+			}
+			
 			$initOptions = function(field){
 				field = $(field);
 				field.children('li').on('click keydown', function(e){
@@ -263,25 +359,27 @@
 				});
 			}
 			
+			$reset = function(){
+				$.post('func/reset.php', { system: <?=$system;?> }, function(result){
+					try {
+						var rs = JSON.parse(result);
+						if (!rs.error)
+						{ location.reload(); }
+					}
+					catch (err){
+						console.log(err.message);
+						console.log(result);
+					}
+				});
+			}
+			
 			$(function(){
 				$('div#intro > button#start').on('click keydown', function(e){
 					if ($clicked(e.which)){ $next(); }
 				});
 				
 				$('div#top > span#reset').on('click keydown', function(e){
-					if ($clicked(e.which)){
-						$.post('func/reset.php', { system: <?=$system;?> }, function(result){
-							try {
-								var rs = JSON.parse(result);
-								if (!rs.error)
-								{ location.reload(); }
-							}
-							catch (err){
-								console.log(err.message);
-								console.log(result);
-							}
-						});
-					}
+					if ($clicked(e.which)){ $reset(); }
 				});
 			});
 		</script>

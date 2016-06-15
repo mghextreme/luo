@@ -39,7 +39,7 @@
 							array_shift($this->raiz->filhos);
 							$i--;
 						} else {
-							$result = $this->raiz->filhos[$i]->proximaPergunta($this->objetivo->id);
+							$result = $this->raiz->filhos[$i]->proximaPergunta();
 							if (!empty($result))
 							{ return $result; }
 						}

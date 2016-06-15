@@ -7,7 +7,6 @@
 
 	// pegando o sistema
 	$sistema = $_POST['system'];
-	$ret = "";
 	global $conn;
 
 	if (isset($_POST['variable']) && isset($_POST['val'])){
@@ -20,7 +19,6 @@
 
 		foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
 			$arvore = unserialize($aDescobrir);
-			//print_r($arvore);
 			if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL)
 			{ $arvores[] = $arvore; }
 		}
@@ -28,7 +26,7 @@
 		
 		foreach ($arvores as $item){
 			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
-				$ret = $item->raiz->verificar();
+				$item->raiz->verificar();
 				$item->verificar();
 			}
 		}
@@ -38,18 +36,9 @@
 			$_SESSION['s'.$sistema]['arvores'][$item->objetivo->id] = serialize($item);
 		}
 		unset($item);
-		
-//		print_r($_SESSION['s'.$sistema]['variaveis']);
 	}
 
 	$result = getNextQuestion($sistema);
 	
-//	print_r(unserialize($_SESSION['s'.$sistema]['arvores'][1]));
-//	print_r($result);
-	if (isset($_POST['variable']) && isset($_POST['val'])){
-		$result['variavel'] = $_POST['variable'];
-		$result['val'] = $_POST['val'];
-		$result['ret'] = $ret;
-	}
 	die(json_encode($result));
 ?>

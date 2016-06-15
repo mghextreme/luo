@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	include(__DIR__.'/func/base.php');
 	connectDatabase();
 ?>

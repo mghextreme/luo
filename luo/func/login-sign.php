@@ -5,15 +5,15 @@
 	include('base.php');
 	connectDatabase();
 	
-	$user = cleanString($_POST['username']);
-	$pass = $_POST['password'];
+	$stmt = $conn->prepare("SELECT `id`,`login`,`senha` FROM `usuario` WHERE `login`=?");
+	$stmt->bind_param('s', $_POST['username']);
+	$stmt->execute();
 	
-	$query = $conn->query("SELECT `id`,`password`,`email` FROM `users` WHERE `email`='{$user}'");
+	$query = $stmt->get_result();
 	while ($row = $query->fetch_assoc()){
 		$dt = date('Y-m-d H:i:s');
-		if (crypt($pass, $row['password']) == $row['password']) {
-			session_start();
-			$_SESSION['luouser'] = $row['email'];
+		if (password_verify($_POST['password'], $row['senha'])) {
+			$_SESSION['luouser'] = $row['login'];
 			$_SESSION['luoid'] = $row['id'];
 			die('ok');
 		} else {

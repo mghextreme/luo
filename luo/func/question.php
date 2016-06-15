@@ -1,5 +1,4 @@
 <?php 
-
 	include(__DIR__.'/base.php');
 	connectDatabase();
 
@@ -11,7 +10,7 @@
 		
 		$opcoes = array();
 		
-		if($result->num_rows > 0){
+		if ($result->num_rows > 0){
 			while($row = $result->fetch_assoc()){
 				$opcoes[$row['id']] = $row['valor'];
 			}
@@ -40,23 +39,18 @@
 					$arvore = $aDescobrir;
 					break;
 				}
-//				if ($_SESSION['s'.$sistema]['variaveis'][$aDescobrir->objetivo->id]['valor'] === NULL){
-//					$arvore = $aDescobrir;
-//					break;
-//				}
 			}
 			unset($aDescobrir);
-			
-//			return $arvore;
 
 			$variavel = NULL;
 			
-			if($arvore !== NULL){
-				if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL){
-					$variavel = $arvore->proximaPergunta();
-				}
+			if ($arvore !== NULL){
+				if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL)
+				{ $variavel = $arvore->proximaPergunta(); }
 				$_SESSION['s'.$sistema]['arvores'][$arvore->objetivo->id] = serialize($arvore);
 			}
+			
+			//print_r($variavel);
 			
 			if ($variavel !== NULL){
 				$opcoes = getOpcoes($variavel);
@@ -67,20 +61,46 @@
 					'opcoes' => $opcoes
 				);
 			} elseif ($arvore === NULL){
-//				$opcoes = getOpcoes($variavel);
 				$result['error'] = FALSE;
 				$result['content'] = array(
-					'resolvido' => TRUE
+					'resolvido' => TRUE,
+					'respostas' => getRespostas($sistema)
 				);
 			} else {
-				// não possui uma variavel para questionar
-//				$result['content'] = print_r($_SESSION['s'.$sistema]['variaveis']);
-//				$result['content'] = print_r($arvore);
 				$result['content'] = NULL;
 			}
 		} catch(Exception $e){
 			$result['content'] = $e->getMessage();
 		}
 		return $result;
+	}
+	
+	function getRespostas($sistema){
+		global $conn;
+		
+		$answer = array();
+		
+		foreach ($_SESSION['s'.$sistema]['arvores'] as $arvore){
+			$arvore = unserialize($arvore);
+			
+			$row = array(
+				'variavel' => unserialize($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['variavel']),
+				'valor' => $_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'],
+				'certeza' => '1.0'
+			);
+			
+			if ($row['variavel']->tipo == 'OPCAO'){
+				$query = "SELECT `valor` FROM `opcao` WHERE `variavel`='{$row['variavel']->id}' && `id`='{$row['valor']}'";
+				$result = $conn->query($query);
+				$tmp = $result->fetch_assoc();
+				$row['valor'] = $tmp['valor'];
+			}
+			
+			$row['variavel'] = $row['variavel']->nome;
+			
+			$answer[] = $row;
+		}
+		
+		return $answer;
 	}
 ?>

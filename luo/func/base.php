@@ -36,24 +36,18 @@
 		
 		function getUserData($basic = FALSE){
 			global $conn;
-			$result = array('id' => NULL, 'name' => 'DESCONHECIDO');
+			$result = array('id' => NULL, 'nome' => 'DESCONHECIDO');
 			
 			if (!isset($_SESSION))
 			{ session_start(); }
 			
 			if (isset($_SESSION['luouser'])){
-				if ($basic){
-					$stmt = $conn->prepare("SELECT `id`,`name`,`email`,`picture` FROM `users` WHERE `email`=? && `id`=?");
-				} else {
-					$stmt = $conn->prepare("SELECT `U`.`id`,`U`.`name`,`U`.`email`,`U`.`picture`,`U`.`birthdate`,`L`.`name` AS `langname`,`L`.`abbr` AS `langabbr`,`L`.`id` AS `langid`,`C`.`name` AS `countryname`,`C`.`abbr` AS `countryabbr` FROM `users` `U` INNER JOIN `languages` `L` ON `U`.`mainlang`=`L`.`id` INNER JOIN `countries` `C` ON `U`.`country`=`C`.`id` WHERE `U`.`email`=? && `U`.`id`=?");
-				}
+				$stmt = $conn->prepare("SELECT `id`,`nome`,`login` FROM `usuario` WHERE `login`=? && `id`=?");
 				$stmt->bind_param('si', $_SESSION['luouser'], $_SESSION['luoid']);
                 $stmt->execute();
                 $query = $stmt->get_result();
-				if ($query->num_rows > 0){
-					$row = $query->fetch_assoc();
-					$result = $row;
-				}
+				if ($query->num_rows > 0)
+				{ $result = $query->fetch_assoc(); }
 			}
 			
 			return $result;

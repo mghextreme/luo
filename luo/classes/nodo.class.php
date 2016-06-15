@@ -148,6 +148,7 @@
 			global $_SESSION;
 			
 			$any;
+			$done = FALSE;
 			do {
 				$any = FALSE;
 				if (count($this->filhos) > 0){
@@ -160,6 +161,7 @@
 					} while (!$any);
 				} else {
 					$any = TRUE;
+					$done = TRUE;
 				}
 				
 				// só tenta resolver se não tem filhos ou se o primeiro filho foi resolvido
@@ -180,7 +182,7 @@
 						$this->aplicarConsequencias();
 					}
 				}
-			} while (!$this->resolvido && $any && count($this->filhos) > 0);
+			} while (!$this->resolvido && $any && !$done);
 		}
 		
 		// void - aplica as consequencias

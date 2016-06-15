@@ -2,28 +2,24 @@ TO DO
 
 #matias
 
-- Interface (HTML/CSS/JS)
-- Avançar variável
-- Exibir respostas (variáveis objetivos)
+- Iniciar em tela de pergunta
+- Importar/Exportar
+- Página do Autor
 
 #evandro
 
-- IniSystem (base.php): Verificar se sistema existe
 - Aceitar valores "vazios" para variáveis
 
 #quemMesmo?
 
 - Evitar loop (gerar nodos de regras que já estão acima na árvore)
-- Não expandir já resolvidas (nodo, arvore)
 
 
 IDEIAS
 
 #admin
 - Senha para entrar em um sistema
-- Importar/Exportar sistemas
 - Interface para criar um sistema
-- Página do Autor
 
 #inferencia
 - ELSE

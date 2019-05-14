@@ -17,5 +17,7 @@ RewriteRule ^(home|main|dashboard|start|root|menu)/?$ index.php
 RewriteRule ^(novo|criar)/?$ novo.php
 
 RewriteRule ^sistema/([0-9]+)(/[^/]+)?/?$ sistema.php?id=$1
+RewriteRule ^exportar/([0-9]+)(/[^/]+)?/?$ func/export.php?id=$1
+RewriteRule ^importar/([0-9]+)(/[^/]+)?/?$ importar.php?id=$1
 
 RewriteRule ^responder/([0-9]+)(/[^/]+)?/?$ responder.php?id=$1

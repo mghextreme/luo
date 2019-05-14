@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+
+  php:
+    image: php:7-fpm
+    restart: always
+    ports:
+      - 80:80
+    environment:
+      DB_HOST: mariadb
+      DB_NAME: "${DB_NAME}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      WEB_TITLE: "${WEB_TITLE}"
+      WEB_PROTOCOL: "${WEB_PROTOCOL}"
+      WEB_HOST: "${WEB_HOST}"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - backend
+
+  db:
+    image: mariadb
+    restart: always
+    user: "1000:50"
+    environment:
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+    volumes:
+      - ./data/mariadb:/var/lib/mysql:Z
+    networks:
+      - backend
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - backend
+
+networks:
+  backend:

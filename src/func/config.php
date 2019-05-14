@@ -1,16 +1,17 @@
 <?php
-	//Set Database Data.
-	$db['host'] = "localhost";
-	$db['user'] = "root";
-	$db['pass'] = "";
-	$db['name'] = "luo";
+	// Set Database Data
+	$db = array();
+	$db['host'] = getenv("DB_HOST");
+	$db['name'] = getenv("DB_NAME");
+	$db['user'] = getenv("DB_USERNAME");
+	$db['pass'] = getenv("DB_PASSWORD");
 	
-	//Set Website Options
+	// Set Website Options
+	$website = array();
 	$website['name'] = "Lúo";
-	$website['base'] = "localhost/luo/luo";
-	$website['link'] = "http://localhost/luo/luo";
-	$website['path'] = "C:/xamp/htdocs/luo/luo";
+	$website['base'] = getenv("WEB_HOST");
+	$website['link'] = getenv("WEB_PROTOCOL") . "://" . $website['base'];
 	
-	//Connection
+	// Connection
 	$conn = NULL;
 ?>

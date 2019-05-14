@@ -6,6 +6,14 @@ The project is requires a database to work and currently doesn't have a GUI for 
 
 You can test a version [here](http://www.mghenschel.com.br/projects/furb/luo/login) (available only in Portuguese - Brazil).
 
+## Run
+
+To run the system locally, just download the repository and run `docker-compose up -d` on the root folder.
+
+Lúo will be available in [localhost:5000](http://localhost:5000).
+
+If you've never ran it before, access [localhost:8080](http://localhost:8080) with the credentials in the `.env` file and import the `luo.sql` file, available in the root folder of the project.
+
 ## Future
 
 ### To do

@@ -1,12 +1,15 @@
-#Options +FollowSymLinks -MultiViews
+# Configuration
 
-#AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
-
+Options +FollowSymLinks -MultiViews
+AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript
 RewriteEngine On
 
 # Errors
+
 ErrorDocument 404 /404.php
 RewriteRule ^404/?$ 404.php
+
+# Rewrite rules
 
 RewriteRule ^/?$ index.php
 RewriteRule ^(log|sign)-?in/?$ login.php

@@ -1,3 +1,7 @@
 # database
 
 data/mariadb
+
+# src
+
+src/phpinfo.php

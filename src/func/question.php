@@ -5,7 +5,7 @@
 	function getOpcoes($variavel){
 		global $conn;
 		
-		$query = "SELECT * FROM opcao WHERE variavel = {$variavel->id};";
+		$query = "SELECT * FROM opcao WHERE variavel={$variavel->id};";
 		$result = $conn->query($query);
 		
 		$opcoes = array();
@@ -14,9 +14,31 @@
 			while($row = $result->fetch_assoc()){
 				$opcoes[$row['id']] = $row['valor'];
 			}
-			return $opcoes;
 		}
-		return NULL;
+		else {
+			$opcoes[0] = 'Não';
+			$opcoes[1] = 'Sim';
+		}
+		
+		return $opcoes;
+	}
+	
+	function setVariable($sistema, $var, $value){
+		if ($value === NULL)
+		{ $value = FALSE; }
+		
+		$_SESSION['s'.$sistema]['variaveis'][$var]['valor'] = $value;
+	}
+	
+	function checkTrees($sistema){
+		foreach ($_SESSION['s'.$sistema]['arvores'] as $key => $aDescobrir){
+			$item = unserialize($aDescobrir);
+			if ($_SESSION['s'.$sistema]['variaveis'][$key]['valor'] === NULL){
+				$item->verificarFilhos();
+				$_SESSION['s'.$sistema]['arvores'][$key] = serialize($item);
+			}
+		}
+		unset($aDescobrir);
 	}
 	
 	function getNextQuestion($sistema){
@@ -65,7 +87,16 @@
 					'opcoes' => $opcoes
 				);
 			} else {
-				$result['content'] = NULL;
+				$arvore->verificarFilhos();
+				if (!$arvore->resolvido){
+					$result['content'] = NULL;
+				} else {
+					$result['error'] = FALSE;
+					$result['content'] = array(
+						'resolvido' => TRUE,
+						'respostas' => getRespostas($sistema)
+					);
+				}
 			}
 		} catch(Exception $e){
 			$result['content'] = $e->getMessage();
@@ -84,14 +115,21 @@
 			$row = array(
 				'variavel' => unserialize($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['variavel']),
 				'valor' => $_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'],
-				'certeza' => '1.0'
+				'certeza' => $_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['certeza']
 			);
 			
-			if ($row['variavel']->tipo == 'OPCAO'){
+			if ($row['valor'] === NULL){
+				$row['valor'] = '<small>Deconhecido</small>';
+			}
+			else if ($row['variavel']->tipo == 'OPCAO'){
 				$query = "SELECT `valor` FROM `opcao` WHERE `variavel`='{$row['variavel']->id}' && `id`='{$row['valor']}'";
 				$result = $conn->query($query);
-				$tmp = $result->fetch_assoc();
-				$row['valor'] = $tmp['valor'];
+				if ($result->num_rows > 0){
+					$tmp = $result->fetch_assoc();
+					$row['valor'] = $tmp['valor'];
+				} else {
+					$row['valor'] = $row['valor'] ? 'Sim' : 'Não';
+				}
 			}
 			
 			$row['variavel'] = $row['variavel']->nome;

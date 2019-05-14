@@ -3,6 +3,8 @@
 	{ session_start(); }
 	
 	if (!function_exists('connectDatabase')){
+		date_default_timezone_set('America/Sao_Paulo');
+		
 		include(dirname(__FILE__).'/config.php');
 		include(dirname(__FILE__).'/../classes/arvore.class.php');
 		
@@ -66,7 +68,8 @@
             
             $_SESSION['s'.$sistema] = array(
                 'variaveis' => array(),
-                'arvores' => array()
+                'arvores' => array(),
+				'regras' => array()
             );
 			
 			$query = "SELECT * FROM sistema WHERE id = '{$sistema}';";
@@ -89,7 +92,8 @@
 					// criando um array pra cada variavel
 					$_SESSION['s'.$sistema]['variaveis'][$varivavel->id] = array(
 						'variavel' => serialize($varivavel),
-						'valor' => NULL
+						'valor' => NULL,
+						'certeza' => 1
 					);
 				}
 			}
@@ -104,6 +108,7 @@
 					$_SESSION['s'.$sistema]['arvores'][$arvore->objetivo->id] = serialize($arvore);
 				}
 			}
+			
         }
 	}
 ?>

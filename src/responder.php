@@ -99,6 +99,19 @@
 		</div>
 		<?php include('footer.php'); ?>
 		<script type="text/javascript" charset="utf-8">
+			$empty = function(val){
+				if (val === undefined)
+				{ return true; }
+				
+				if (val === null)
+				{ return true; }
+				
+				if (val.length == 0)
+				{ return true; }
+				
+				return false;
+			}
+			
 			$next = function(skip){
 				var vars = { system: <?=$system;?> },
 					form = $('div#content').children('form#question');
@@ -155,6 +168,7 @@
 						if (rs.error){
 							switch (rs.content){
 								case 'null': // Nada para questionar
+								case null:
 									$box.alert('Nenhuma pergunta a ser questionada.');
 									break;
 								default:
@@ -187,8 +201,8 @@
 					
 					form = $('<form>').attr({ id: 'question', name: 'question', method: 'post', action: 'javascript:$next()' }).css({ display: 'none' });
 					form.append($('<input>').attr({ id: 'variable', name: 'variable', type: 'hidden' }).val(cont.variavel.id));
-					form.append($('<h2>').text(cont.variavel.pergunta != null ? cont.variavel.pergunta : 'Qual o valor de ' + cont.variavel.nome + '?'));
-					if (cont.variavel.descricao != null)
+					form.append($('<h2>').text(!$empty(cont.variavel.pergunta) ? cont.variavel.pergunta : 'Qual o valor de ' + cont.variavel.nome + '?'));
+					if (!$empty(cont.variavel.descricao))
 					{ form.append($('<p>').text(cont.variavel.descricao)); }
 					
 					var field;
@@ -255,10 +269,10 @@
 								field = form.children('#field'),
 								footer = form.children('div.bottom');
 							
-							input.val(cont.id);
-							h2.text(cont.variavel.pergunta != null ? cont.variavel.pergunta : 'Qual o valor de ' + cont.variavel.nome + '?');
+							input.val(cont.variavel.id);
+							h2.text(!$empty(cont.variavel.pergunta) ? cont.variavel.pergunta : 'Qual o valor de ' + cont.variavel.nome + '?');
 							
-							if (cont.variavel.descricao != null){
+							if (!$empty(cont.variavel.descricao)){
 								if (p.size() == 0){
 									p = $('<p>');
 									h2.after(p);
@@ -357,9 +371,20 @@
 				field = $(field);
 				field.children('li').on('click keydown', function(e){
 					if ($clicked(e.which)){
-						$(this).parent().children('li').removeClass('sel');
-						$(this).addClass('sel');
-						$(this).children('input').prop('checked', true);
+						if ($(this).hasClass('sel')){
+							if (e.which == 13){
+								$next();
+							}
+							else {
+								$(this).removeClass('sel');
+								$(this).children('input').prop('checked', false);
+							}
+						}
+						else {
+							$(this).parent().children('li').removeClass('sel');
+							$(this).addClass('sel');
+							$(this).children('input').prop('checked', true);
+						}
 					}
 				});
 			}

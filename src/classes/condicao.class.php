@@ -30,30 +30,28 @@
 		
 		// bool - implementação do método descrito em Condicao
 		public function IsTrue(){
-			if(isset($_SESSION['s'.$this->sistema]['variaveis'][$this->variavel->id]['valor'])){
+			$resposta = array(
+				'result' => NULL,
+				'certeza' => 1
+			);
+			
+			if (isset($_SESSION['s'.$this->sistema]['variaveis'][$this->variavel->id]['valor'])){
 				$variavelValor = $_SESSION['s'.$this->sistema]['variaveis'][$this->variavel->id]['valor'];
-				switch ($this->op){
-					case '=':
-						return $variavelValor == $this->valor;
-						break;
-					case '>':
-						return $variavelValor > $this->valor;
-						break;
-					case '<':
-						return $variavelValor < $this->valor;
-						break;
-					case '>=':
-						return $variavelValor >= $this->valor;
-						break;
-					case '<=':
-						return $variavelValor <= $this->valor;
-						break;
-					case '!=':
-						return $variavelValor != $this->valor;
-						break;
+				$resposta['certeza'] = $_SESSION['s'.$this->sistema]['variaveis'][$this->variavel->id]['certeza'];
+				
+				if ($variavelValor !== NULL){
+					switch ($this->op){
+						case '=': $resposta['result'] = $variavelValor == $this->valor; break;
+						case '!=': $resposta['result'] = $variavelValor != $this->valor; break;
+						case '<': $resposta['result'] = $variavelValor < $this->valor; break;
+						case '<=': $resposta['result'] = $variavelValor <= $this->valor; break;
+						case '>=': $resposta['result'] = $variavelValor >= $this->valor; break;
+						case '>': $resposta['result'] = $variavelValor > $this->valor; break;
+					}
 				}
 			}
-			return NULL;
+			
+			return $resposta;
 		}
 	}
 	
@@ -72,34 +70,45 @@
 		}
 		
 		// bool - implementação do método descrito em Condicao
-			// priorizar execução
+		// priorizar execução
 		public function IsTrue(){
-			if(count($condicoes) > 0){
-				foreach($condicoes as $condicao){
+			$resposta = array(
+				'result' => NULL,
+				'certeza' => 1
+			);
+			
+			if (count($this->condicoes) > 0){
+				$anyNull = FALSE;
+				foreach ($this->condicoes as $condicao){
+					$val = $condicao->isTrue();
+//					var_dump($val);
+					
+					if ($val['result'] === NULL)
+					{ $anyNull = TRUE; }
+					
+					$resposta['certeza'] *= $val['certeza'];
+					
 					switch ($this->op){
 						case '&&':
-							if(!$condicao->isTrue()){
-								return FALSE;
-							}
+							if ($val['result'] === FALSE)
+							{ $resposta['result'] = FALSE; }
 							break;
 						case '||':
-							if($condicao->isTrue()){
-								return TRUE;
-							}
+							if ($val['result'])
+							{ $resposta['result'] = TRUE; }
 							break;
-
-							// ta feito não garanto que vai ter
 						case '!':
-							return !$condicao->isTrue();
+							$resposta['result'] = $anyNull ? NULL : !$val['result'];
 							break;
 					}
 				}
 				unset($condicao);
 				
-				return $this->op == '&&';
+				if ($resposta['result'] === NULL && !$anyNull && $this->op != '!')
+				{ $resposta['result'] = $this->op == '&&'; }
 			}
 			
-			return NULL;
+			return $resposta;
 		}
 	}
 	

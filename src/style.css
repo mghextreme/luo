@@ -435,6 +435,11 @@ div#responder > div#content > div#final > table > tbody > tr > td:nth-of-type(2n
 div#responder > div#content > div#final > table > thead > tr > th:last-child,
 div#responder > div#content > div#final > table > tbody > tr > td:last-child { text-align: center; }
 
+div#responder > div#content > div#final > table > tbody > tr > td > small {
+	font-size: 14px;
+	color: #888;
+}
+
 div#responder > div#content > div#final > p {
 	margin-top: 30px;
 	font-size: 16px;
@@ -552,6 +557,75 @@ ul#sistemas > li > div.actions > a:hover,
 ul#sistemas > li > div.actions > a:focus { opacity: 1; }
 
 
+/* - - - - - - - - - - - - - - - - Criar - - - - - - - - - - - - - - - - */
+
+div#create { }
+
+div#create > div.header {
+	position: relative;
+	padding-right: 150px;
+}
+
+div#create > div.header > h1 {
+	font-size: 32px;
+	line-height: 40px;
+	color: #293243;
+}
+
+div#create > div.header > h2 {
+	margin-top: 5px;
+	font-size: 20px;
+	line-height: 26px;
+}
+
+div#create > form {
+	margin-top: 20px;
+}
+
+div#create > form > label {
+	display: block;
+	padding: 0 5px;
+	margin-bottom: 4px;
+	font-size: 13px;
+	line-height: 16px;
+	color: #555;
+}
+div#create > form > input + label,
+div#create > form > textarea + label { margin-top: 14px; }
+
+div#create > form > input,
+div#create > form > textarea {
+	display: block;
+	width: 100%;
+	padding: 7px 12px;
+	font-size: 16px;
+	line-height: 22px;
+	color: #555;
+	background: #ccc;
+}
+div#create > form > input#name {
+	font-size: 24px;
+	line-height: 32px;
+}
+div#create > form > textarea {
+	min-height: 124px;
+	height: 124px;
+	resize: vertical;
+}
+
+div#create > form > button {
+	display: block;
+	padding: 6px 15px;
+	margin: 15px 0 0 auto;
+	font-size: 20px;
+	line-height: 26px;
+	color: white;
+	background: #485775;
+}
+div#create > form > button:hover,
+div#create > form > button:focus { background: #293243; }
+
+
 /* - - - - - - - - - - - - - - - - Editar - - - - - - - - - - - - - - - - */
 
 div#edit { }
@@ -567,20 +641,453 @@ div#edit > div.header > h1 {
 	color: #293243;
 }
 
-div#edit > div.header > h4 {
+div#edit > div.header > h3 {
 	font-size: 14px;
 	line-height: 20px;
 	color: #777;
 }
 
-div#edit > div.header > button#export {
+div#edit h4 {
+	margin-bottom: 10px;
+	font-size: 24px;
+	line-height: 30px;
+	color: #485775;
+}
+div#edit > div.header + h4,
+div#edit > ul + h4 { margin-top: 20px; }
+
+div#edit > div.header > a {
+	display: inline-block;
 	position: absolute;
-	top: 10px; right: 0;
+	top: 10px;
 	padding: 6px 12px;
 	font-size: 16px;
 	line-height: 22px;
 	color: white;
 	background: #485775;
 }
-div#edit > div.header > button#export:hover,
-div#edit > div.header > button#export:focus { background: #293243; }
+div#edit > div.header > a:hover,
+div#edit > div.header > a:focus { background: #293243; }
+div#edit > div.header > a#import { right: 100px; }
+div#edit > div.header > a#export { right: 0; }
+
+div#edit > ul { }
+
+/* - - - - - - - - Editar # Variaveis - - - - - - - - */
+
+div#edit > ul#editVars > li {
+	position: relative;
+	background: #ddd;
+}
+div#edit > ul#editVars > li + li { margin-top: 10px; }
+
+div#edit > ul#editVars > li > header {
+	position: relative;
+	padding: 7px 160px 7px 45px;
+	color: white;
+	background: #293243;
+	cursor: pointer;
+}
+div#edit > ul#editVars > li > header:hover,
+div#edit > ul#editVars > li > header:focus { background: #485775; }
+
+div#edit > ul#editVars > li.objetivo > header::before {
+	position: absolute;
+	top: 7px; left: 10px;
+	width: 25px;
+	font-family: FontAwesome;
+	font-size: 18px;
+	line-height: 30px;
+	text-align: center;
+	opacity: 0.8;
+	content: '\f069';
+}
+
+div#edit > ul#editVars > li > header > h5 {
+	font-size: 24px;
+	line-height: 30px;
+}
+
+div#edit > ul#editVars > li > header > span.type {
+	position: absolute;
+	top: 9px; right: 50px;
+	font-size: 18px;
+	line-height: 24px;
+	opacity: 0.8;
+}
+
+div#edit > ul#editVars > li > header::after {
+	position: absolute;
+	top: 7px; right: 20px;
+	font-family: FontAwesome;
+	font-size: 24px;
+	line-height: 30px;
+	content: '\f107';
+}
+
+div#edit > ul#editVars > li > form {
+	display: none;
+	flex-wrap: nowrap;
+	align-content: stretch;
+	justify-content: space-between;
+	padding: 15px 10px;
+}
+div#edit > ul#editVars > li.open > form { display: flex; }
+
+div#edit > ul#editVars > li > form > .half {
+	flex: 1 1 auto;
+	width: 50%;
+	padding: 0 10px;
+}
+
+div#edit > ul#editVars > li > form > .half > label {
+	display: block;
+	padding: 0 5px;
+	margin-bottom: 4px;
+	font-size: 13px;
+	line-height: 16px;
+	color: #555;
+}
+div#edit > ul#editVars > li > form > div.half.main > input + label,
+div#edit > ul#editVars > li > form > div.half.main > select + label { margin-top: 12px; }
+
+div#edit > ul#editVars > li > form > div.half.main > input,
+div#edit > ul#editVars > li > form > div.half.main > select {
+	display: block;
+	width: 100%;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	color: #555;
+	background: #ccc;
+}
+
+div#edit > ul#editVars > li > form > div.half.main > button {
+	display: block;
+	padding: 3px 12px;
+	margin: 15px 0 0 auto;
+	font-size: 16px;
+	line-height: 24px;
+	color: white;
+	background: #485775;
+}
+div#edit > ul#editVars > li > form > div.half.main > button:hover,
+div#edit > ul#editVars > li > form > div.half.main > button:focus { background: #293243; }
+
+div#edit > ul#editVars > li > form > ul.half.options > li {
+	position: relative;
+	padding-right: 40px;
+}
+div#edit > ul#editVars > li > form > ul.half.options > li + li { margin-top: 10px; }
+
+div#edit > ul#editVars > li > form > ul.half.options > li > input {
+	display: block;
+	width: 100%;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	color: #555;
+	background: #ccc;
+}
+
+div#edit > ul#editVars > li > form > ul.half.options > li > span.remove {
+	position: absolute;
+	top: 0; right: 0;
+	width: 34px;
+	height: 34px;
+	font-size: 20px;
+	line-height: 34px;
+	text-align: center;
+	color: #999;
+	cursor: pointer;
+}
+div#edit > ul#editVars > li > form > ul.half.options > li > span.remove:hover,
+div#edit > ul#editVars > li > form > ul.half.options > li > span.remove:focus { color: #777; }
+
+div#edit > ul#editVars > li > form > ul.half.options > button {
+	display: block;
+	padding: 3px 12px;
+	margin: 15px 40px 0 auto;
+	font-size: 16px;
+	line-height: 24px;
+	color: white;
+	background: #485775;
+}
+div#edit > ul#editVars > li > form > ul.half.options > button:hover,
+div#edit > ul#editVars > li > form > ul.half.options > button:focus { background: #293243; }
+
+/* - - - - - - - - Editar # Regras - - - - - - - - */
+
+div#edit > ul#editRegras > li {
+	position: relative;
+	background: #ddd;
+}
+div#edit > ul#editRegras > li + li { margin-top: 10px; }
+
+div#edit > ul#editRegras > li > div.handle {
+	position: absolute;
+	top: 0; left: 0;
+	width: 60px;
+	padding: 7px 0;
+	font-size: 24px;
+	line-height: 30px;
+	text-align: center;
+	color: white;
+	background: #293243;
+	z-index: 10;
+	cursor: n-resize;
+}
+div#edit > ul#editRegras > li > div.handle:hover { background: #485775; }
+
+div#edit > ul#editRegras > li > header {
+	position: relative;
+	padding: 7px 160px 7px 80px;
+	color: white;
+	background: #293243;
+	cursor: pointer;
+}
+div#edit > ul#editRegras > li > header:hover,
+div#edit > ul#editRegras > li > header:focus { background: #485775; }
+
+div#edit > ul#editRegras > li > header > h5 {
+	font-size: 24px;
+	line-height: 30px;
+}
+
+div#edit > ul#editRegras > li > header > span {
+	position: absolute;
+	top: 9px; right: 50px;
+	font-size: 18px;
+	line-height: 24px;
+	opacity: 0.8;
+}
+
+div#edit > ul#editRegras > li > header::after {
+	position: absolute;
+	top: 7px; right: 20px;
+	font-family: FontAwesome;
+	font-size: 24px;
+	line-height: 30px;
+	content: '\f107';
+}
+
+div#edit > ul#editRegras > li > form {
+	display: none;
+	padding: 15px 20px;
+}
+div#edit > ul#editRegras > li.open > form { display: block; }
+
+div#edit > ul#editRegras > li > form > label {
+	display: block;
+	padding: 0 5px;
+	margin-bottom: 4px;
+	font-size: 13px;
+	line-height: 16px;
+	color: #555;
+}
+div#edit > ul#editRegras > li > form > input + label,
+div#edit > ul#editRegras > li > form > select + label { margin-top: 12px; }
+
+div#edit > ul#editRegras > li > form > input,
+div#edit > ul#editRegras > li > form > select {
+	display: block;
+	width: 100%;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	color: #555;
+	background: #ccc;
+}
+
+div#edit > ul#editRegras > li > form > button[type=submit] {
+	display: block;
+	padding: 3px 12px;
+	margin: 15px 0 0 auto;
+	font-size: 16px;
+	line-height: 24px;
+	color: white;
+	background: #485775;
+}
+div#edit > ul#editRegras > li > form > button[type=submit]:hover,
+div#edit > ul#editRegras > li > form > button[type=submit]:focus { background: #293243; }
+
+div#edit > ul#editRegras > li > form > ul.condic { margin-bottom: 15px; }
+
+div#edit > ul#editRegras > li > form > ul.condic li.item + li.item { margin-top: 5px; }
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.log {
+	padding: 10px 15px;
+}
+
+div#edit > ul#editRegras > li > form > ul.condic > li.item.log { background: #eee; }
+div#edit > ul#editRegras > li > form > ul.condic > li.item.log > ul.filhas > li.item.log { background: #ddd; }
+div#edit > ul#editRegras > li > form > ul.condic > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log { background: #eee; }
+div#edit > ul#editRegras > li > form > ul.condic > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log { background: #ddd; }
+div#edit > ul#editRegras > li > form > ul.condic > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log { background: #eee; }
+div#edit > ul#editRegras > li > form > ul.condic > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log > ul.filhas > li.item.log { background: #ddd; }
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.log > div.cond {
+	margin-bottom: 10px;
+}
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.log > div.cond > select.logicOp {
+	display: block;
+	width: 70px;
+	padding: 5px 12px;
+	margin: 0 auto 0 0;
+	font-size: 18px;
+	line-height: 24px;
+	color: #555;
+	background: #ccc;
+	margin-bottom: 10px;
+}
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.log > ul.filhas {
+	padding-left: 40px;
+}
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: stretch;
+	align-content: space-between;
+	justify-content: space-between;
+}
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > select.valueVar {
+	flex: 1 1 auto;
+	display: block;
+	width: 30%;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	color: #555;
+	background: #ccc;
+}
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > select.valueVar:hover,
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > select.valueVar:focus { background: #bbb; }
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > select.valueOp {
+	flex: 0 0 auto;
+	padding: 5px 12px;
+	font-size: 16px;
+	line-height: 24px;
+	color: #ccc;
+	background: #555;
+}
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > select.valueOp[disabled] { cursor: default; }
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > div.value {
+	flex: 1 1 auto;
+	width: 30%;
+}
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > div.value > input,
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > div.value > select {
+	display: block;
+	width: 100%;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	color: #555;
+	background: #ccc;
+}
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > div.value > input:hover,
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > div.value > select:hover,
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > div.value > input:focus,
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > div.value > select:focus { background: #bbb; }
+
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > span.remove {
+	flex: 0 0 auto;
+	display: block;
+	width: 44px;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	text-align: center;
+	color: #999;
+	cursor: pointer;
+}
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > span.remove:hover,
+div#edit > ul#editRegras > li > form > ul.condic li.item.val > div.cond > span.remove:focus { color: #777; }
+
+div#edit > ul#editRegras > li > form > ul.conseq { }
+
+div#edit > ul#editRegras > li > form > ul.conseq > li {
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	align-items: stretch;
+	align-content: space-between;
+	justify-content: space-between;
+}
+div#edit > ul#editRegras > li > form > ul.conseq > li + li { margin-top: 5px; }
+
+div#edit > ul#editRegras > li > form > ul.conseq > li > select {
+	flex: 1 1 auto;
+	display: block;
+	width: 30%;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	color: #555;
+	background: #ccc;
+}
+div#edit > ul#editRegras > li > form > ul.conseq > li > select:hover,
+div#edit > ul#editRegras > li > form > ul.conseq > li > select:focus { background: #bbb; }
+
+div#edit > ul#editRegras > li > form > ul.conseq > li > span.eq {
+	flex: 0 0 auto;
+	padding: 5px 15px;
+	font-size: 16px;
+	line-height: 24px;
+	color: #ccc;
+	background: #555;
+}
+
+div#edit > ul#editRegras > li > form > ul.conseq > li > div.value {
+	flex: 1 1 auto;
+	width: 30%;
+}
+
+div#edit > ul#editRegras > li > form > ul.conseq > li > div.value > input,
+div#edit > ul#editRegras > li > form > ul.conseq > li > div.value > select {
+	display: block;
+	width: 100%;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	color: #555;
+	background: #ccc;
+}
+div#edit > ul#editRegras > li > form > ul.conseq > li > div.value > input:hover,
+div#edit > ul#editRegras > li > form > ul.conseq > li > div.value > select:hover,
+div#edit > ul#editRegras > li > form > ul.conseq > li > div.value > input:focus,
+div#edit > ul#editRegras > li > form > ul.conseq > li > div.value > select:focus { background: #bbb; }
+
+div#edit > ul#editRegras > li > form > ul.conseq > li > input.cnf {
+	flex: 0 0 auto;
+	display: block;
+	width: 80px;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	text-align: center;
+	color: #ccc;
+	background: #555;
+}
+
+div#edit > ul#editRegras > li > form > ul.conseq > li > span.remove {
+	flex: 0 0 auto;
+	display: block;
+	width: 44px;
+	padding: 5px 12px;
+	font-size: 18px;
+	line-height: 24px;
+	text-align: center;
+	color: #999;
+	cursor: pointer;
+}
+div#edit > ul#editRegras > li > form > ul.conseq > li > span.remove:hover,
+div#edit > ul#editRegras > li > form > ul.conseq > li > span.remove:focus { color: #777; }

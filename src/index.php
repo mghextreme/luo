@@ -22,7 +22,7 @@
 					<a href="responder/<?=$row['id'];?>/<?=nameLink($row['nome']);?>" target="_blank" class="fa">&#xf04b;</a>
 					<!--<a href="javascript:$openLink()" class="fa">&#xf1d8;</a>-->
 					<a href="sistema/<?=$row['id'];?>/<?=nameLink($row['nome']);?>" class="fa">&#xf013;</a>
-				</ul>
+				</div>
 			</li>
 			<?php endwhile; ?>
 		</ul>

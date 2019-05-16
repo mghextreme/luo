@@ -19,15 +19,28 @@ If you've never ran it before, access [localhost:8080](http://localhost:8080) wi
 ### To do
 
 - Start with question
-- Import/Export
+- Import
 - Author page
-- Allow "empty" values for variables
 - Avoid loop (generate node of rules that are above in the tree)
+- Edit System
+  - Create variable
+  - Save variable
+  - Remove variable
+  - Create option
+  - Save/Remove option
+  - Create rule
+  - Reorder rule
+  - Remove rule
+  - Create condition (value)
+  - Create condition (logic)
+  - Save/Remove condition
+  - Create consequence
+  - Save/Remove consequence
 
 ### Ideas
 
 - Password protected system
-- Interface to create system / add rules
+- Interface to create system
 - Add _else_ option
 - Suggest shortest way (or let person decide if wants to order, ask less questions, etc...)
 - Alert for inconsistencies

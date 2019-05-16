@@ -23,50 +23,50 @@
 		}
 		
 		public function proximaPergunta(){
-			global $sistema, $_SESSION;
+			global $sistema;
+			
+			if (!$this->resolvido){
+				// para cada filho
+				for ($i = 0; $i < count($this->raiz->filhos); $i++){
+					$result = $this->raiz->filhos[$i]->proximaPergunta();
+					if (!empty($result))
+					{ return $result; }
+				}
+			}
+			return NULL;
+		}
+		
+		public function verificarFilhos(){
+			global $sistema;
 			
 			if (!$this->resolvido){
 				if (count($this->raiz->filhos) > 0){
-					// para cada filho
-					for ($i = 0; !$this->resolvido && $i < count($this->raiz->filhos); $i++){
+					// para cada filho - enquanto não estiver resolvido
+					for ($i = 0; !$this->resolvido && $i < count($this->raiz->filhos);){
 						// verifica se o filho foi resolvido
-						$this->raiz->filhos[$i]->verificar();
+						$this->raiz->filhos[$i]->verificarFilhos();
 						if ($this->raiz->filhos[$i]->resolvido){
 							// retira o filho
 							array_splice($this->raiz->filhos, $i, 1);
-							$this->verificar();
-							if ($this->resolvido)
-							{ return NULL; }
-							$i--;
 						}
-						else {
-							$result = $this->raiz->filhos[$i]->proximaPergunta();
-							if (!empty($result))
-							{ return $result; }
-						}
+						else $i++;
 					}
 				}
 				$this->verificar();
 			}
-			
-			return NULL;
 		}
 		
 		public function verificar(){
 			global $sistema;
-			if (!isset($_SESSION))
-			{ session_start(); }
 			
-			if ($_SESSION['s'.$sistema]['variaveis'][$this->objetivo->id]['valor'] !== NULL)
-			{ $this->resolvido = TRUE; }
+			if ($_SESSION['s'.$sistema]['variaveis'][$this->objetivo->id]['valor'] !== NULL || count($this->raiz->filhos) == 0){
+				$this->resolvido = TRUE;
+				$this->raiz->filhos = array();
+			}
 		}
 		
 		public function expandirRaiz(){
 			global $sistema, $conn;
-			
-			if(!isset($_SESSION)){
-                session_start();
-            }
 			
 			$this->raiz = new Nodo(0);
 			$this->raiz->sistema = $sistema;
@@ -77,13 +77,13 @@
 			
 			if ($resultRegra->num_rows > 0) {
 				// faz a convesão
-				while ($row = $resultRegra->fetch_assoc()) {
+				while ($rule = $resultRegra->fetch_assoc()) {
 					// nodo filho
-					$nodoFilho = new Nodo($row['regra']);
+					$nodoFilho = new Nodo($rule['regra']);
 					$nodoFilho->sistema = $sistema;
 					
 					// pega as consequencias para aquela regra
-					$query = "SELECT * FROM consequencia WHERE regra = {$row['regra']};";
+					$query = "SELECT * FROM consequencia WHERE regra = {$nodoFilho->id};";
 					$resulConsequencia = $conn->query($query);
 					
 					if ($resulConsequencia->num_rows > 0){
@@ -92,30 +92,43 @@
 							$consequenciaNodo->id = $row['id'];
 							$consequenciaNodo->variavel = unserialize($_SESSION['s'.$sistema]['variaveis'][$row['variavel']]['variavel']);
 							$consequenciaNodo->valor = $row['valor'];
-							$consequenciaNodo->certeza = $row['certeza'];
+							$consequenciaNodo->certeza = floatval($row['certeza']);
 							
 							$nodoFilho->consequencias[] = $consequenciaNodo;
 						}
 					}
 					
 					// pega as condições para aquela regra
-					$query = "SELECT * FROM condicao WHERE regra = {$nodoFilho->id};";
+					$query = "SELECT * FROM condicao WHERE regra={$nodoFilho->id} AND pai IS NULL;";
 					$resultCondicao = $conn->query($query);
 					if ($resultCondicao->num_rows > 0) {
 						while ($row = $resultCondicao->fetch_assoc()) {
-							$condicaoFilho = new CondicaoValor();
-							$condicaoFilho->id = $row['id'];
-							$condicaoFilho->sistema = $sistema;
-							$condicaoFilho->op = $row['op'];
-							$condicaoFilho->variavel = unserialize($_SESSION['s'.$sistema]['variaveis'][$row['variavel']]['variavel']);
-							$condicaoFilho->valor = $row['valor'];
-							
+							if(in_array($row['op'], array("&&", "||", "!"))){
+								$condicaoFilho = new CondicaoLogica();
+								$condicaoFilho->id = $row['id'];
+								$condicaoFilho->sistema = $sistema;
+								$condicaoFilho->op = $row['op'];
+								$condicaoFilho->condicoes = $nodoFilho->getFilhos($nodoFilho->id, $condicaoFilho->id);
+							} else {
+								$condicaoFilho = new CondicaoValor();
+								$condicaoFilho->id = $row['id'];
+								$condicaoFilho->sistema = $sistema;
+								$condicaoFilho->op = $row['op'];
+								$condicaoFilho->variavel = unserialize($_SESSION['s'.$sistema]['variaveis'][$row['variavel']]['variavel']);
+								$condicaoFilho->valor = $row['valor'];	
+							}
+							 
 							$nodoFilho->condicoes[] = $condicaoFilho;
 						}
 					}
 					
-					// condicionar a aceitação do filho, por hora caminho feliz
-					$this->raiz->filhos[] = $nodoFilho;
+					if (count($nodoFilho->condicoes) > 0){
+//						print_r($nodoFilho);
+						$nodoFilho->verificar();
+//						print_r($nodoFilho);
+						// condicionar a aceitação do filho, por hora caminho feliz
+						$this->raiz->filhos[] = $nodoFilho;
+					}
 				}
 			}
 		}

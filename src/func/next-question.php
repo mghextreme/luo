@@ -8,34 +8,11 @@
 	// pegando o sistema
 	$sistema = $_POST['system'];
 	global $conn;
-
-	if (isset($_POST['variable']) && isset($_POST['val'])){
-		$variable = $_POST['variable'];
-		$val = $_POST['val'];
-		
-		$_SESSION['s'.$sistema]['variaveis'][$variable]['valor'] = $val;
-		
-		$arvores = array();
-
-		foreach ($_SESSION['s'.$sistema]['arvores'] as $aDescobrir){
-			$arvore = unserialize($aDescobrir);
-			if ($_SESSION['s'.$sistema]['variaveis'][$arvore->objetivo->id]['valor'] === NULL)
-			{ $arvores[] = $arvore; }
-		}
-		unset($aDescobrir);
-		
-		foreach ($arvores as $item){
-			if ($_SESSION['s'.$sistema]['variaveis'][$item->objetivo->id]['valor'] === NULL){
-				$item->raiz->verificar();
-				$item->verificar();
-			}
-		}
-		unset($item);
-		
-		foreach ($arvores as $item){
-			$_SESSION['s'.$sistema]['arvores'][$item->objetivo->id] = serialize($item);
-		}
-		unset($item);
+	
+	if (isset($_POST['variable'])){
+		$val = isset($_POST['val']) ? $_POST['val'] : NULL;
+		setVariable($sistema, $_POST['variable'], $val);
+		checkTrees($sistema);
 	}
 
 	$result = getNextQuestion($sistema);
